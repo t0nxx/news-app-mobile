@@ -1,25 +1,26 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Container, Content, H1 } from 'native-base';
+import HeaderComponent from '../components/Header';
 
-const AboutScreen = ({ params, }) => (
-    <View style={styles.container}>
-        <Text style={styles.title}> About grey Screen</Text>
-    </View>
-);
+const AboutScreen = ({ navigation }) => (
+    <Container>
+        <HeaderComponent title="About Us" navigation={navigation} />
+        <Content style={{ marginHorizontal: 15, marginTop: 15 }}>
+            <H1>
+                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'red',
-    },
-    title: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-        color: 'white'
-    }
-});
+    أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد
+
+    أكسير سيتاشن يللأمكو لابورأس نيسي يت أليكيوب أكس أيا كوممودو كونسيكيوات . ديواس
+
+    أيوتي أريري دولار إن ريبريهينديرأيت فوليوبتاتي فيلايت أيسسي كايلليوم دولار أيو فيجايت
+
+    نيولا باراياتيور. أيكسسيبتيور ساينت أوككايكات كيوبايداتات نون بروايدينت ,سيونت ان كيولبا
+
+    كيو أوفيسيا ديسيريونتموليت انيم أيدي ايست لابوريوم."
+            </H1>
+        </Content>
+    </Container>
+)
 
 export default AboutScreen;

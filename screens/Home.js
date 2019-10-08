@@ -1,26 +1,18 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Button, Container, Content, Footer, FooterTab, Text } from 'native-base'
+import HeaderComponent from '../components/Header';
+import FooterComponent from '../components/Footer';
+import TabsComponent from '../components/Tabs';
 
-const HomeScreen = ({ params, }) => (
-    <View style={styles.container}>
-        <Text style={styles.welcome}> Home Screen Green </Text>
-    </View>
+
+const HomeScreen = ({ navigation }) => (
+    <Container>
+        <HeaderComponent title="News App :3" navigation={navigation} />
+        <TabsComponent />
+        <FooterComponent navigation={navigation} />
+    </Container>
 );
 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'green',
-    },
-    welcome: {
-        fontSize: 30,
-        color: 'white',
-        textAlign: 'center',
-        margin: 10,
-    }
-});
 
 export default HomeScreen;

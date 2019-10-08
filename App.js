@@ -1,14 +1,28 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar } from 'react-native';
 import HumburgerMenu from './navigations/HumburgerMenu';
-import BottomMenu from './navigations/BottomMenu';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+import HomeScreen from './screens/Home';
+
 export default function App() {
+  const [ready, setReady] = useState(false);
+  useEffect(async () => {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    setReady(true);
+  }, ready)
   return (
-
-      <HumburgerMenu />
-
-
-  );
+    ready != false ? (
+      <>
+        <StatusBar hidden />
+        <HumburgerMenu />
+      </>
+    ) : null
+  )
 }
 
 

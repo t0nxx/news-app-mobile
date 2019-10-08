@@ -1,25 +1,16 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Container, Content, H1 } from 'native-base';
+import HeaderComponent from '../components/Header';
 
-const HelpScreen = ({ params, }) => (
-    <View style={styles.container}>
-        <Text style={styles.title}> Help Me Blue Screen</Text>
-    </View>
+const HelpScreen = ({ params, navigation }) => (
+    <Container>
+        <HeaderComponent title="Help Me" navigation={navigation} />
+        <Content style={{ marginHorizontal: 15, marginTop: 15 }}>
+            <H1>
+                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت
+        </H1>
+        </Content>
+    </Container>
 );
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'blue',
-    },
-    title: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-        color: 'white'
-    }
-});
 
 export default HelpScreen;
