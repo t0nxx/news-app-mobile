@@ -5,7 +5,6 @@ import HomeScreen from '../screens/Home';
 import HelpScreen from '../screens/Help';
 import TermsScreen from '../screens/Terms';
 import AboutScreen from '../screens/AboutUs';
-import BottomNavigator from './BottomMenu';
 import { THEME_BACKGROUND_COLOR, THEME_FONT_COLOR } from '../Colors';
 import BookmarksScreen from '../screens/Bookmarks';
 import ProfileScreen from '../screens/Profile';

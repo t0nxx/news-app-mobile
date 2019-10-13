@@ -1,3 +1,7 @@
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
+}
+
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import HumburgerMenu from './navigations/HumburgerMenu';

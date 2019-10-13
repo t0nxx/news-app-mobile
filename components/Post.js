@@ -1,25 +1,33 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Left, Body, Badge } from 'native-base';
-const PostComponent = ({ id, title, category }) => (
+import { Image, ImageBackground } from 'react-native';
+import { Container, Content, Card, CardItem, Text, Left, Body, Badge, Right, Thumbnail, H1, View } from 'native-base';
 
-    <Card>
-        <CardItem>
-            <Left>
-                <Badge>
-                    <Text>{category}</Text>
-                </Badge>
-            </Left>
-        </CardItem>
-        <CardItem cardBody>
-            <Image source={{ uri: 'https://images.unsplash.com/photo-1570192164067-6f2d28702ae8?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80' }} style={{ height: 250, width: null, flex: 1 }} />
-        </CardItem>
-        <CardItem>
-            <Body>
-                <Text>{title}</Text>
-            </Body>
-        </CardItem>
-    </Card>
+const PostComponent = ({ id, title, category, backgroundImage, source, }) => {
+    return (
+        <Card>
+            {/* <CardItem>
+                <Right>
+                    <Thumbnail source={{ uri: source.backgroundImage }} small />
 
-);
+                    <Text>{source.name}</Text>
+
+                </Right>
+            </CardItem> */}
+            <CardItem cardBody style={{margin : 5}}>
+                <ImageBackground source={{ uri: backgroundImage }} style={{ height: 200, width: null, flex: 1, opacity: 1.5 }} >
+                    <View style={{ left: 4, top: 4 }}>
+                        <Badge >
+                            <Text>{category}</Text>
+                        </Badge>
+                    </View>
+                    <View style={{ right: 8, bottom: 4, position: 'absolute' }}>
+                        <H1 style={{ fontWeight: 'bold', color: 'white' }}>{title}</H1>
+                    </View>
+
+                </ImageBackground>
+            </CardItem>
+        </Card>
+
+    )
+};
 export default PostComponent;
