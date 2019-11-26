@@ -7,7 +7,8 @@ const BookmarksScreen = ({ params, navigation }) => (
         <HeaderComponent title="Bookmarks" navigation={navigation} />
         <Content style={{ marginHorizontal: 15, marginTop: 15 }}>
             <H1>
-                Bookmarks page
+                Bookmarks page 
+                {navigation.getParam('id','hhh')}
         </H1>
         </Content>
     </Container>

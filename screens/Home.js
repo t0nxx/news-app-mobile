@@ -8,8 +8,8 @@ import TabsComponent from '../components/Tabs';
 
 const HomeScreen = ({ navigation }) => (
     <Container>
-        <HeaderComponent title="News App :3" navigation={navigation} />
-        <TabsComponent />
+        <HeaderComponent title="حكايا" navigation={navigation} />
+        <TabsComponent navigation={navigation} />
         <FooterComponent navigation={navigation} />
     </Container>
 );

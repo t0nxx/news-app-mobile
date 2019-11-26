@@ -1,59 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ListView, TouchableOpacity } from 'react-native';
 import { Tabs, Tab, Container, Content } from 'native-base';
 import { THEME_BACKGROUND_COLOR, THEME_FONT_COLOR } from '../Colors';
 import PostComponent from './Post';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getAll1Posts } from '../services/posts';
 
+
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    // to make infinty scroll
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+        contentSize.height - paddingToBottom;
+};
+
 const TabsComponent = ({ params, }) => {
 
     const [posts, setPosts] = useState([]);
     const [mostRead, setMostRead] = useState([]);
     const [mostComment, setMostComment] = useState([]);
+
+    const [postsPage, setPostsPage] = useState(1);
+    const [mostReadPage, setMostReadPage] = useState(1);
+    const [mostCommentPage, setMostCommentPage] = useState(1);
+
+    const getLatestNews = async () => {
+        const allposts = await getAll1Posts('all', postsPage);
+        setPosts([...posts, ...allposts.data]);
+    }
+    const getMostRead = async () => {
+        const moRead = await getAll1Posts('mostRead', mostReadPage);
+        setMostRead([...mostRead, ...moRead.data]);
+    }
+
+    const getMostComment = async () => {
+        const moComm = await getAll1Posts('mostComment', mostCommentPage)
+        setMostComment([...mostComment, ...moComm.data]);
+    }
+
+    const fetchAllData = async () => {
+        await Promise.all([
+            getLatestNews(),
+            getMostComment(),
+            getMostRead()
+        ]);
+
+    }
     useEffect(() => {
-        const fetchData = async () => {
-            const [allposts, moRead, moComm] = await Promise.all([
-                getAll1Posts(),
-                getAll1Posts('mostRead'),
-                getAll1Posts('mostComment')
-            ]);
-            setPosts([...allposts.data]);
-            setMostRead([...moRead.data]);
-            setMostComment([...moComm.data]);
-        }
-        fetchData();
+        fetchAllData();
     }, []);
     return (
         <Tabs tabBarUnderlineStyle={Tabstyles.tabBarUnderlineStyle}    >
-            <Tab heading="Latest News"
+            <Tab heading="اخر الاخبار"
                 tabStyle={Tabstyles.tabStyle}
                 activeTabStyle={Tabstyles.activeTabStyle}
                 activeTextStyle={Tabstyles.activeTextStyle}
             >
                 <Container>
-                    <Content>
+                    <Content
+                        onScroll={({ nativeEvent }) => {
+                            if (isCloseToBottom(nativeEvent)) {
+                                setPostsPage(postsPage + 1);
+                                getLatestNews();
+                            }
+                        }}
+                        scrollEventThrottle={400}
+                    >
                         <ScrollView style={{ flex: 1 }}>
                             {posts.map(p => (
-                                <PostComponent
-                                    key={p.id}
-                                    title={p.title}
-                                    backgroundImage={p.backgroundImage}
-                                    source={p.source}
-                                    category={p.categories[0] ? p.categories[0].name : 'غيرمحدد'} />
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('SinglePost', { id: p.id })}
+                                >
+                                    <PostComponent
+                                        key={p.id}
+                                        title={p.title}
+                                        backgroundImage={p.backgroundImage}
+                                        source={p.source}
+                                        category={p.categories[0] ? p.categories[0].name : 'غيرمحدد'} />
+                                </TouchableOpacity>
+
                             ))}
                         </ScrollView>
                     </Content>
                 </Container>
 
             </Tab>
-            <Tab heading="Most Read"
+            <Tab heading="الاكثر قراءة"
                 tabStyle={Tabstyles.tabStyle}
                 activeTabStyle={Tabstyles.activeTabStyle}
                 activeTextStyle={Tabstyles.activeTextStyle}
             >
                 <Container>
-                    <Content>
+                    <Content
+                        onScroll={({ nativeEvent }) => {
+                            if (isCloseToBottom(nativeEvent)) {
+                                setMostReadPage(mostReadPage + 1);
+                                getMostRead();
+                            }
+                        }}
+                        scrollEventThrottle={400}
+                    >
                         <ScrollView style={{ flex: 1 }}>
                             {mostRead.map(p => (
                                 <PostComponent
@@ -68,13 +114,21 @@ const TabsComponent = ({ params, }) => {
                 </Container>
 
             </Tab>
-            <Tab heading="Most Comment"
+            <Tab heading="الاكثر تعليق"
                 tabStyle={Tabstyles.tabStyle}
                 activeTabStyle={Tabstyles.activeTabStyle}
                 activeTextStyle={Tabstyles.activeTextStyle}
             >
                 <Container>
-                    <Content>
+                    <Content
+                        onScroll={({ nativeEvent }) => {
+                            if (isCloseToBottom(nativeEvent)) {
+                                setMostCommentPage(mostCommentPage + 1);
+                                getMostComment();
+                            }
+                        }}
+                        scrollEventThrottle={400}
+                    >
                         <ScrollView style={{ flex: 1 }}>
                             {mostComment.map(p => (
                                 <PostComponent
@@ -100,7 +154,8 @@ const Tabstyles = {
     },
     activeTextStyle: {
         color: 'white',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: 'Cairo',
     },
     textStyle: {
         color: THEME_FONT_COLOR

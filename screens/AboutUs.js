@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Content, H1 } from 'native-base';
 import HeaderComponent from '../components/Header';
+import { getAboutUs } from '../services/drawer';
 
-const AboutScreen = ({ navigation }) => (
-    <Container>
-        <HeaderComponent title="About Us" navigation={navigation} />
-        <Content style={{ marginHorizontal: 15, marginTop: 15 }}>
-            <H1>
-                لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
 
-    أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد
-
-    أكسير سيتاشن يللأمكو لابورأس نيسي يت أليكيوب أكس أيا كوممودو كونسيكيوات . ديواس
-
-    أيوتي أريري دولار إن ريبريهينديرأيت فوليوبتاتي فيلايت أيسسي كايلليوم دولار أيو فيجايت
-
-    نيولا باراياتيور. أيكسسيبتيور ساينت أوككايكات كيوبايداتات نون بروايدينت ,سيونت ان كيولبا
-
-    كيو أوفيسيا ديسيريونتموليت انيم أيدي ايست لابوريوم."
-            </H1>
-        </Content>
-    </Container>
-)
+const AboutScreen = ({ navigation }) => {
+    const [data, setData] = useState({});
+    const fetchData = async () => {
+        const res = await getAboutUs();
+        setData({ ...res.data });
+    }
+    useEffect(() => {
+        fetchData();
+    }, []);
+    return (
+        <Container>
+            <HeaderComponent title="عن التطبيق" navigation={navigation} />
+            <Content style={{ marginHorizontal: 20, marginTop: 20 }}>
+                <H1 style={{ fontFamily: 'Cairo' }}>{data.body}</H1>
+            </Content>
+        </Container>
+    )
+}
 
 export default AboutScreen;

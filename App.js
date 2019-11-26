@@ -11,18 +11,23 @@ import HomeScreen from './screens/Home';
 
 export default function App() {
   const [ready, setReady] = useState(false);
-  useEffect(async () => {
+
+  const loadFonts = async () => {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      Cairo: require('./assets/fonts/Cairo-Regular.ttf'),
       ...Ionicons.font,
     });
     setReady(true);
+  }
+  useEffect(() => {
+    loadFonts();
   }, ready)
   return (
     ready != false ? (
       <>
-        <StatusBar hidden />
+        <StatusBar />
         <HumburgerMenu />
       </>
     ) : null
