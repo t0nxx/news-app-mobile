@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ListView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ListView, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Tabs, Tab, Container, Content } from 'native-base';
 import { THEME_BACKGROUND_COLOR, THEME_FONT_COLOR } from '../Colors';
 import PostComponent from './Post';
@@ -14,7 +14,7 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
         contentSize.height - paddingToBottom;
 };
 
-const TabsComponent = ({ params, }) => {
+const TabsComponent = ({ params, navigation }) => {
 
     const [posts, setPosts] = useState([]);
     const [mostRead, setMostRead] = useState([]);
@@ -67,19 +67,21 @@ const TabsComponent = ({ params, }) => {
                         scrollEventThrottle={400}
                     >
                         <ScrollView style={{ flex: 1 }}>
-                            {posts.map(p => (
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('SinglePost', { id: p.id })}
-                                >
-                                    <PostComponent
+                            {
+                                posts.map(p => (
+                                    <TouchableHighlight
+                                        onPress={() => navigation.navigate('SinglePost', { id: p.id })}
                                         key={p.id}
-                                        title={p.title}
-                                        backgroundImage={p.backgroundImage}
-                                        source={p.source}
-                                        category={p.categories[0] ? p.categories[0].name : 'غيرمحدد'} />
-                                </TouchableOpacity>
+                                    >
+                                        <PostComponent
+                                            title={p.title}
+                                            backgroundImage={p.backgroundImage}
+                                            source={p.source}
+                                            category={p.categories[0] ? p.categories[0].name : 'غيرمحدد'} />
+                                    </TouchableHighlight>
 
-                            ))}
+                                ))
+                            }
                         </ScrollView>
                     </Content>
                 </Container>

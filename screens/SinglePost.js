@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Image, ImageBackground, ScrollView, Dimensions } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { Container, Content, Card, CardItem, Text, Left, Body, Badge, Right, Thumbnail, H1, View } from 'native-base';
+import { ScrollView, Dimensions, View,Text } from 'react-native';
+import { H1 } from 'native-base'
 import { getOnePost } from '../services/posts';
 import HeaderComponent from '../components/Header';
 import HTML from 'react-native-render-html';
+import HeaderImageScrollView from 'react-native-image-header-scroll-view';
+
 
 
 const SinglePostScreen = ({ navigation }) => {
@@ -14,28 +15,44 @@ const SinglePostScreen = ({ navigation }) => {
         p: { fontFamily: 'Cairo', fontSize: 15 },
         strong: { fontFamily: 'Cairo', fontSize: 25 }
     }
-
     const fetchData = async () => {
         const res = await getOnePost(navigation.getParam('id'));
         setData({ ...res.data });
         setHtmlContent(res.data.body);
-        console.log(res.data);
+        console.log();
 
     }
     useEffect(() => {
         fetchData();
-    }, [htmlContent]);
+    }, [navigation.getParam('id')]);
     return (
-        <Container>
-            <HeaderComponent title="" navigation={navigation} />
+        // <Container>
+        //     <HeaderComponent title="" navigation={navigation} />
+        //     <Image source={{ uri: data.backgroundImage }} style={{ height: 200, width: null, flex: 1, opacity: 1.5 }} />
+        //     <ScrollView style={{ flex: 1, padding: 15 }}>
+        //         <HTML
+        //             html={htmlContent}
+        //             imagesMaxWidth={Dimensions.get('window').width}
+        //             tagsStyles={htmlStyles}
+        //         />
+        //     </ScrollView>
+        // </Container>
+        <HeaderImageScrollView
+            maxHeight={350}
+            headerImage={{ uri: data.backgroundImage }}
+        >
             <ScrollView style={{ flex: 1, padding: 15 }}>
-                <HTML
-                    html={htmlContent}
-                    imagesMaxWidth={Dimensions.get('window').width}
-                    tagsStyles={htmlStyles}
-                />
+                <View style={{ borderTopRightRadius: 40, borderTopStartRadius: 40, overflow: 'hidden' }}>
+                    <Text style={{ fontSize: 40, fontFamily: 'Cairo', fontWeight: 'bold' }}>{data.title}</Text>
+                    <HTML
+                        html={htmlContent}
+                        imagesMaxWidth={Dimensions.get('window').width}
+                        tagsStyles={htmlStyles}
+                    />
+                </View>
+
             </ScrollView>
-        </Container>
+        </HeaderImageScrollView>
     )
 };
 

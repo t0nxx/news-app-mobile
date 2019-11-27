@@ -53,7 +53,7 @@ const HumburgerMenu = createDrawerNavigator({
         iconContainerStyle: {
             opacity: .5
         }
-    }
+    },
 })
 
 export default createAppContainer(HumburgerMenu);
