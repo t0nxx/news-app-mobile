@@ -1,6 +1,7 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { Image, StyleSheet } from 'react-native'
 import HomeScreen from '../screens/Home';
 import HelpScreen from '../screens/Help';
 import TermsScreen from '../screens/Terms';
@@ -34,26 +35,34 @@ const HumburgerMenu = createDrawerNavigator({
     },
     "MyCommments": {
         screen: MyCommentsScreen
-    } ,
-    'SinglePost' : {
-        screen : SinglePostScreen
+    },
+    'SinglePost': {
+        screen: SinglePostScreen
     }
 }, {
     initialRouteName: 'Home',
     drawerPosition: 'right',
-    drawerBackgroundColor: THEME_BACKGROUND_COLOR,
+    drawerBackgroundColor: '#B047E5',
     drawerWidth: '80%',
     activeTintColor: '#e91e63',
     contentOptions: {
         activeTintColor: 'white',
-        inactiveTintColor: 'black',
+        inactiveTintColor: 'white',
         itemsContainerStyle: {
             marginVertical: 50,
         },
         iconContainerStyle: {
             opacity: .5
-        }
+        },
     },
+    navigationOptions: {
+        headerBackground: (
+            <Image
+                style={StyleSheet.absoluteFill}
+                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg' }}
+            />
+        ),
+    }
 })
 
 export default createAppContainer(HumburgerMenu);

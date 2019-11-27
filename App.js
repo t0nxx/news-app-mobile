@@ -27,7 +27,7 @@ export default function App() {
   return (
     ready != false ? (
       <>
-        <StatusBar />
+        <StatusBar barStyle="default" />
         <HumburgerMenu />
       </>
     ) : null
