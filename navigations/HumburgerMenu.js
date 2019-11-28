@@ -2,6 +2,7 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Image, StyleSheet } from 'react-native'
+import { Icon } from 'native-base';
 import HomeScreen from '../screens/Home';
 import HelpScreen from '../screens/Help';
 import TermsScreen from '../screens/Terms';
@@ -11,19 +12,44 @@ import BookmarksScreen from '../screens/Bookmarks';
 import ProfileScreen from '../screens/Profile';
 import MyCommentsScreen from '../screens/MyComments';
 import SinglePostScreen from '../screens/SinglePost';
+import { LoginScreen, LogOutScreen } from '../screens/LoginScreen';
 
 
 const HumburgerMenu = createDrawerNavigator({
     "Home": {
+        navigationOptions: {
+            drawerLabel: 'الرئيسية',
+            drawerIcon: () => (
+                <Icon type="FontAwesome" name="home" style={{ fontSize: 30, color: 'white' }} />
+            ),
+        },
         screen: HomeScreen,
     },
     "About": {
+        navigationOptions: {
+            drawerLabel: 'عن البرنامج',
+            drawerIcon: () => (
+                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+            ),
+        },
         screen: AboutScreen
     },
     "Help": {
+        navigationOptions: {
+            drawerLabel: 'المساعدة',
+            drawerIcon: () => (
+                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+            ),
+        },
         screen: HelpScreen
     },
     "Terms": {
+        navigationOptions: {
+            drawerLabel: 'شروط الاستخدام',
+            drawerIcon: () => (
+                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+            ),
+        },
         screen: TermsScreen
     },
     // this is hidden from drawer in navigation options 
@@ -38,7 +64,14 @@ const HumburgerMenu = createDrawerNavigator({
     },
     'SinglePost': {
         screen: SinglePostScreen
-    }
+    },
+    'Login': {
+        screen: LoginScreen
+    },
+    'Logout': {
+        screen: LogOutScreen
+    },
+
 }, {
     initialRouteName: 'Home',
     drawerPosition: 'right',
@@ -54,15 +87,21 @@ const HumburgerMenu = createDrawerNavigator({
         iconContainerStyle: {
             opacity: .5
         },
+        itemStyle: {
+            // for rtl lable
+            flexDirection: 'row-reverse'
+        },
     },
-    navigationOptions: {
-        headerBackground: (
-            <Image
-                style={StyleSheet.absoluteFill}
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg' }}
-            />
-        ),
-    }
+    // kill every component after leave
+    unmountInactiveRoutes: true
+
 })
+const styles = StyleSheet.create({
+    icon: {
+        width: 24,
+        height: 24,
+        backgroundColor: 'transparent'
+    },
+});
 
 export default createAppContainer(HumburgerMenu);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground } from 'react-native';
+import { StyleSheet, Text, ImageBackground, Image } from 'react-native';
 import { Header, Left, Body, Title, Right, Button, Icon, Tabs, Tab } from 'native-base';
 import { THEME_BACKGROUND_COLOR } from '../Colors';
 
@@ -19,11 +19,18 @@ const HeaderComponent = ({ params, title, navigation }) => (
                     <Icon name={navigation.state.routeName == 'Home' ? 'search' : 'arrow-back'} />
                 </Button>
             </Left>
-            <Right style={{ flex: 1 }}>
+            {/* <Right style={{ flex: 1 }}>
                 <Body style={{ flex: 1 }}>
                     <Text style={{ fontWeight: 'bold', color: 'white', fontFamily: 'Cairo' }}>{title}</Text>
                 </Body>
-            </Right>
+            </Right> */}
+            <Body style={{ flex: 1 }}>
+                <Button transparent onPress={() => navigation.openDrawer()}>
+                    <Image source={require('../assets/header-img.png')} />
+                </Button>
+
+            </Body>
+
             <Right style={{ flex: 1 }}>
                 <Button transparent onPress={() => navigation.openDrawer()}>
                     <Icon name='menu' />

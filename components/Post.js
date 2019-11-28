@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, ImageBackground } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Left, Body, Badge, H1, View } from 'native-base';
+import { Image, ImageBackground, StyleSheet } from 'react-native';
+import { Container, Content, Card, CardItem, Left, Body, Badge, H1, View, Text, H2 } from 'native-base';
 
 const PostComponent = ({ id, title, category, backgroundImage, source, }) => {
     return (
@@ -13,11 +13,19 @@ const PostComponent = ({ id, title, category, backgroundImage, source, }) => {
                         </Badge>
                     </View>
                     <View style={{ right: 8, bottom: 4, position: 'absolute' }}>
-                        <H1 style={{ fontWeight: 'bold', color: 'white', fontFamily: 'Cairo' }}>{title}</H1>
+                        <H1 style={styles.text}>{title}</H1>
                     </View>
                 </ImageBackground>
             </CardItem>
         </Card>
     )
 };
+
+const styles = StyleSheet.create({
+    text: {
+        fontFamily: 'Cairo',
+        color: 'white',
+        fontWeight: 'bold'
+    }
+})
 export default PostComponent;
