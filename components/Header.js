@@ -5,18 +5,27 @@ import { THEME_BACKGROUND_COLOR } from '../Colors';
 
 
 const HeaderComponent = ({ params, title, navigation }) => (
-    <ImageBackground source={require('../assets/gradient.png')} style={{ height: 50, width: null }} >
-        <Header style={{ backgroundColor: 'transparent' }} hasTabs>
+    <ImageBackground source={require('../assets/gradient.png')} style={{ height: 65, width: null }} >
+        <Header style={{ backgroundColor: 'transparent', paddingTop:30 }} hasTabs>
             <Left style={{ flex: 1 }}>
                 <Button transparent onPress={() => {
                     if (navigation.state.routeName == 'Home') {
                         // got to search button
-                        return navigation.navigate('SinglePost', { id: 90 })
+                        return navigation.navigate('Search')
                     } else {
                         return navigation.goBack()
                     }
                 }}>
-                    <Icon name={navigation.state.routeName == 'Home' ? 'search' : 'arrow-back'} />
+                    {navigation.state.routeName == 'Home' ?
+                        <Image source={require('../assets/images/test/search.png')} /> :
+                        <Icon name={'arrow-back'} />
+                    }
+
+                    {/* <Icon name={'arrow-back'} /> */}
+                    {/* <Image source={navigation.state.routeName == 'Home' ?
+                        require('../assets/images/test/search.png') :
+                        require('../assets/images/test/back.png')
+                    } /> */}
                 </Button>
             </Left>
             {/* <Right style={{ flex: 1 }}>
@@ -33,11 +42,11 @@ const HeaderComponent = ({ params, title, navigation }) => (
 
             <Right style={{ flex: 1 }}>
                 <Button transparent onPress={() => navigation.openDrawer()}>
-                    <Icon name='menu' />
+                    <Image source={require('../assets/images/test/menu.png')} />
                 </Button>
             </Right>
         </Header >
-    </ImageBackground>
+    </ImageBackground >
 );
 
 export default HeaderComponent;

@@ -13,7 +13,7 @@ const CardItems = ({ name }) => (
     </ListItem>
 );
 
-const BookmarksScreen = ({ params, navigation }) => {
+const MySubscribeScreen = ({ params, navigation }) => {
     const [data, setData] = useState([]);
     const fetchData = async () => {
         const res = await getCategories();
@@ -33,15 +33,4 @@ const BookmarksScreen = ({ params, navigation }) => {
         </Container>
     )
 };
-BookmarksScreen.navigationOptions = ({ navigation }) => {
-    return {
-        drawerLabel: () => null
-    }
-}
-
-export default BookmarksScreen;
-
-
-
-
-
+export default MySubscribeScreen;

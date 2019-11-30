@@ -13,6 +13,8 @@ import ProfileScreen from '../screens/Profile';
 import MyCommentsScreen from '../screens/MyComments';
 import SinglePostScreen from '../screens/SinglePost';
 import { LoginScreen, LogOutScreen } from '../screens/LoginScreen';
+import MySubscribeScreen from '../screens/MySubscribe';
+import SearchScreen from '../screens/SearchScreen';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -24,6 +26,15 @@ const HumburgerMenu = createDrawerNavigator({
             ),
         },
         screen: HomeScreen,
+    },
+    "MySubscribe": {
+        navigationOptions: {
+            drawerLabel: 'متابعاتي',
+            drawerIcon: () => (
+                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+            ),
+        },
+        screen: MySubscribeScreen
     },
     "About": {
         navigationOptions: {
@@ -71,6 +82,10 @@ const HumburgerMenu = createDrawerNavigator({
     'Logout': {
         screen: LogOutScreen
     },
+    'Search': {
+        screen: SearchScreen
+    },
+
 
 }, {
     initialRouteName: 'Home',

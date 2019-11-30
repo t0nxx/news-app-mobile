@@ -22,6 +22,11 @@ export const getAll1Posts = async (kind, page) => {
     return data
 }
 
+export const searchPosts = async (query) => {
+    const { data } = await http.get(`/posts?query=${query}&limit=1000`);
+    return data
+}
+
 export const getOnePost = async (id) => {
     const { data } = await http.get(`/posts/getOne/mobile/${id}`);
     return data

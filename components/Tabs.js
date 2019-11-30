@@ -53,6 +53,7 @@ const TabsComponent = ({ params, navigation }) => {
 
         >
             <PostComponent
+                navigation={navigation}
                 title={item.title}
                 backgroundImage={item.backgroundImage}
                 source={item.source}
