@@ -1,8 +1,8 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { Image, StyleSheet } from 'react-native'
-import { Icon } from 'native-base';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
+import { Image, StyleSheet, SafeAreaView, TouchableOpacity, AsyncStorage } from 'react-native'
+import { Icon, View, Button, Text } from 'native-base';
 import HomeScreen from '../screens/Home';
 import HelpScreen from '../screens/Help';
 import TermsScreen from '../screens/Terms';
@@ -15,6 +15,7 @@ import SinglePostScreen from '../screens/SinglePost';
 import { LoginScreen, LogOutScreen } from '../screens/LoginScreen';
 import MySubscribeScreen from '../screens/MySubscribe';
 import SearchScreen from '../screens/SearchScreen';
+import { checkCurrentUser } from '../services/httpService';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -104,11 +105,27 @@ const HumburgerMenu = createDrawerNavigator({
         },
         itemStyle: {
             // for rtl lable
-            flexDirection: 'row-reverse'
+            flexDirection: 'row-reverse',
         },
     },
     // kill every component after leave
-    unmountInactiveRoutes: true
+    unmountInactiveRoutes: true,
+    contentComponent: (props) => (
+        <View style={{ flex: 1 }}>
+            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                <DrawerNavigatorItems {...props} />
+                {
+                    // checkCurrentUser() == true ?
+                    //     <TouchableOpacity style={{ backgroundColor: 'transparent', alignItems: 'flex-end' }} >
+                    //         <Text style={{ color: 'white', fontFamily: 'Cairo', textAlign: 'right' }} > تسجيل الخروج</Text>
+                    //     </TouchableOpacity>
+                    //     : <Text> تسجيل الدخول </Text>
+
+
+                }
+            </SafeAreaView>
+        </View>
+    ),
 
 })
 const styles = StyleSheet.create({

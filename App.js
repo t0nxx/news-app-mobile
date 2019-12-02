@@ -8,6 +8,7 @@ import HumburgerMenu from './navigations/HumburgerMenu';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './screens/Home';
+import { Root } from 'native-base';
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -27,8 +28,11 @@ export default function App() {
   return (
     ready != false ? (
       <>
-        <StatusBar barStyle="default" />
-        <HumburgerMenu />
+        <Root>
+          <StatusBar barStyle="default" />
+          <HumburgerMenu />
+        </Root>
+
       </>
     ) : null
   )

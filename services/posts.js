@@ -22,6 +22,32 @@ export const getAll1Posts = async (kind, page) => {
     return data
 }
 
+export const getMySub = async (page) => {
+    let params = {
+        limit: 1000,
+        page: page,
+    }
+    const { data } = await http.get('/posts/mySubscriptions', {
+        params
+    });
+
+    return data
+}
+
+export const getMyBookmarked = async () => {
+    let params = {
+        limit: 1000,
+        page: 1,
+    }
+    const { data } = await http.get('/posts?userId=1', {
+        params
+    });
+
+    return data
+}
+
+
+
 export const searchPosts = async (query) => {
     const { data } = await http.get(`/posts?query=${query}&limit=1000`);
     return data

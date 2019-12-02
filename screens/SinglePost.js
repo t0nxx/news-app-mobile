@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import { H1, Badge, Icon, Button } from 'native-base'
+import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { H1, Badge, Icon, Button, Thumbnail, Right, Body } from 'native-base'
 import { getOnePost } from '../services/posts';
 import HeaderComponent from '../components/Header';
 import HTML from 'react-native-render-html';
@@ -62,6 +62,19 @@ const SinglePostScreen = ({ navigation }) => {
                         imagesMaxWidth={Dimensions.get('window').width}
                         tagsStyles={htmlStyles}
                     />
+                    <Text style={[styles.text, { textAlign: 'right', margin: 5, fontFamily: 'Cairo' }]}> المصدر </Text>
+                    <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
+                        <Thumbnail source={{ uri: data.source.backgroundImage }} />
+                        <Text
+                            style={{
+                                color: 'blue', fontFamily: 'Cairo',
+                                marginTop: 20, marginRight: 10,
+                                textDecorationLine: 'underline'
+                            }}
+                            onPress={() => { Linking.openURL(`${data.source.link}`) }}
+                        >{data.source.name}</Text>
+                    </View>
+
                 </ScrollView>
             </HeaderImageScrollView>
     )
@@ -69,7 +82,7 @@ const SinglePostScreen = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
     text: {
-        fontSize: 40,
+        fontSize: 25,
         fontFamily: 'Cairo',
         fontWeight: 'bold'
 

@@ -1,45 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Content, H1, Body, ListItem, CheckBox, Right, Text, Left } from 'native-base';
+import { Text, View, StyleSheet, ActivityIndicator, TouchableHighlight, FlatList } from 'react-native';
+import PostComponent from '../components/Post';
+import { getMySub, getMyBookmarked } from '../services/posts';
 import HeaderComponent from '../components/Header';
-import { getCategories } from '../services/drawer';
 
 
-const CardItems = ({ name }) => (
-    <ListItem>
-        <Left>
-            <CheckBox checked={true} color="#B047E5" />
-        </Left>
-        <Text style={{ fontFamily: 'Cairo' }}>{name}</Text>
-    </ListItem>
-);
 
 const BookmarksScreen = ({ params, navigation }) => {
-    const [data, setData] = useState([]);
-    const fetchData = async () => {
-        const res = await getCategories();
-        setData([...res.data]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
+    const [postsPage, setPostsPage] = useState(1);
+
+    // const extractMyBookmarked = (arr) => {
+    //     let temp = [...arr];
+    //     temp = arr.length > 0 ? temp.filter(e => e.isBookmarked == true) : [];
+    //     return temp;
+    // }
+    // const getMoreMySub = async (n) => {
+    //     let { data } = await getMyBookmarked();
+    //     data = data.filter(e => e.isBookmarked == true);
+    //     setPosts([...posts, ...data]);
+    // }
+
+    const fetchAllData = async () => {
+        let { data } = await getMyBookmarked();
+        data = data.filter(e => e.isBookmarked == true)
+        setPosts([...data]);
+
     }
+
+    const renderRow = ({ item, index }) => (
+        <TouchableHighlight
+            onPress={() => navigation.navigate({ key: Math.random() * 10000, routeName: 'SinglePost', params: { data: item } })}
+
+        >
+            <PostComponent
+                navigation={navigation}
+                title={item.title}
+                backgroundImage={item.backgroundImage}
+                source={item.source}
+                category={item.categories[0] ? item.categories[0].name : 'غيرمحدد'}
+            />
+        </TouchableHighlight >
+
+    );
     useEffect(() => {
-        fetchData();
+        fetchAllData().then(() => {
+            setIsLoading(false);
+        })
     }, []);
+
     return (
-        <Container>
-            <HeaderComponent title="متابعاتي" navigation={navigation} />
-            <Content style={{ marginHorizontal: 20, marginTop: 30 }}>
-                {data.map(e => (
-                    <CardItems key={e.id} name={e.name} />
-                ))}
-            </Content>
-        </Container>
+        isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
+            (<View style={{ flex: 1 }}>
+                <HeaderComponent title="محفوظاتي" navigation={navigation} />
+                <FlatList
+                    data={posts}
+                    renderItem={renderRow}
+                    keyExtractor={(i, k) => k.toString()}
+                />
+            </View>)
+
+
     )
-};
+
+}
 BookmarksScreen.navigationOptions = ({ navigation }) => {
     return {
         drawerLabel: () => null
     }
 }
-
 export default BookmarksScreen;
+
 
 
 
