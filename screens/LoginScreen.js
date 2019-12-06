@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
 import HomeScreen from './Home';
@@ -7,56 +7,81 @@ import TabsComponent from '../components/Tabs';
 import FooterComponent from '../components/Footer';
 import { Container, Toast } from 'native-base';
 
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { AuthContext } from '../services/auth';
+
+const validationSchema = yup.object().shape({
+    email: yup
+        .string()
+        .label('Email')
+        .email('البريد الالكتروني غير صالح')
+        .required('البريد الالكتروني مطلوب'),
+    password: yup
+        .string()
+        .label('Password')
+        .required('الرقم السري مطلوب')
+        .min(6, 'اقل عدد من الحروف للرقم السري هو 6')
+});
+
+
+
 
 export const LoginScreen = ({ navigation }) => {
     // const [logErr, setLogErr] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const login = async () => {
-        try {
-            const { data } = await http.post('/auth/login', {
-                "email": email,
-                "password": password
-            });
-            console.log(data);
-            await AsyncStorage.setItem('token', data.token);
-            
-            await AsyncStorage.setItem('user', JSON.stringify(data.data));
-            Toast.show({
-                text: "تم تسجيل الدخول بنجاح ",
-                type: "success",
-                position: "top",
-                duration: 5000
-            })
-            navigation.navigate('Home');
-        } catch (error) {
-            console.log(error);
-            Toast.show({
-                text: "ايميل او باسورد خاطئ",
-                type: "danger",
-                position: "top",
-                duration: 5000
-            })
-        }
 
+        validationSchema.validate({ email: email, password: password })
+            .then(async () => {
+                const { data } = await http.post('/auth/login', {
+                    "email": email,
+                    "password": password
+                });
+                await AsyncStorage.setItem('token', data.token);
+
+                await AsyncStorage.setItem('user', JSON.stringify(data.data));
+                setIsLogin(true);
+
+                Toast.show({
+                    text: "تم تسجيل الدخول بنجاح ",
+                    type: "success",
+                    position: "top",
+                    duration: 5000
+                })
+                navigation.navigate('Home');
+            })
+            .catch(err => {
+                let msg = "ايميل او باسورد خاطئ";
+                if (err.errors && err.errors.length > 0) {
+                    msg = err.errors;
+                }
+                Toast.show({
+                    text: msg,
+                    type: "danger",
+                    position: "top",
+                    duration: 5000
+                })
+            });
 
 
     }
-    // useEffect(() => {
-    // }, []);
+
     return (
         <View style={styles.container}>
             <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} />
             <View style={styles.inputContainer}>
-                <TextInput style={[styles.inputs, { textAlign: 'right' }]}
+                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
                     placeholder=" البريد الالكتروني    "
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
                     onChangeText={(em) => setEmail(em)} />
             </View>
             <View style={styles.inputContainer}>
-                <TextInput style={[styles.inputs, { textAlign: 'right' }]}
+                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
                     placeholder=" كلمة السر    "
                     textContentType='password'
                     secureTextEntry={true}
@@ -84,21 +109,19 @@ export const LoginScreen = ({ navigation }) => {
 
 // LoginScreen.navigationOptions = ({ navigation }) => {
 //     return {
-//         drawerLabel: () => checkCurrentUser() ? null : 'تسجيل الدخول '
+//         drawerLabel: ()=> navigation.getParam('headerTitle'),
 //     }
 // }
 
 export const LogOutScreen = ({ navigation }) => {
-
+    const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const logout = async () => {
-        await AsyncStorage.removeItem('token')
-        await AsyncStorage.removeItem('user')
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user');
+        setIsLogin(false);
     }
     logout();
-    AsyncStorage.getItem('token').then(data => {
-        // console.log(data)
-    })
     return (
         navigation.navigate('Home')
     )

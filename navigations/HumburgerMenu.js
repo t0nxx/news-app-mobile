@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { Image, StyleSheet, SafeAreaView, TouchableOpacity, AsyncStorage } from 'react-native'
@@ -16,6 +16,7 @@ import { LoginScreen, LogOutScreen } from '../screens/LoginScreen';
 import MySubscribeScreen from '../screens/MySubscribe';
 import SearchScreen from '../screens/SearchScreen';
 import { checkCurrentUser } from '../services/httpService';
+import { AuthContext } from '../services/auth';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -78,9 +79,17 @@ const HumburgerMenu = createDrawerNavigator({
         screen: SinglePostScreen
     },
     'Login': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
         screen: LoginScreen
     },
     'Logout': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
         screen: LogOutScreen
     },
     'Search': {
@@ -109,23 +118,30 @@ const HumburgerMenu = createDrawerNavigator({
         },
     },
     // kill every component after leave
-    unmountInactiveRoutes: true,
-    contentComponent: (props) => (
-        <View style={{ flex: 1 }}>
-            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-                <DrawerNavigatorItems {...props} />
-                {
-                    // checkCurrentUser() == true ?
-                    //     <TouchableOpacity style={{ backgroundColor: 'transparent', alignItems: 'flex-end' }} >
-                    //         <Text style={{ color: 'white', fontFamily: 'Cairo', textAlign: 'right' }} > تسجيل الخروج</Text>
-                    //     </TouchableOpacity>
-                    //     : <Text> تسجيل الدخول </Text>
+    // unmountInactiveRoutes: true,
+    contentComponent: (props) => {
+        const [isLogin, setIsLogin] = useContext(AuthContext);
+        return (
+            <View style={{ flex: 1 }}>
+                <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                    <DrawerNavigatorItems {...props} />
+                    {
+                        isLogin ?
+                            <TouchableOpacity style={{ backgroundColor: 'transparent', flexDirection: 'row-reverse' }} onPress={() => props.navigation.navigate('Logout')}>
+                                <Image source={require('../assets/images/test/logout.png')} style={{ marginRight: 15 }} />
+                                <Text style={{ color: 'white', fontFamily: 'Cairo', textAlign: 'right', marginRight: 10 }} > تسجيل الخروج</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={{ backgroundColor: 'transparent', flexDirection: 'row-reverse' }} onPress={() => props.navigation.navigate('Login')} >
+                                <Image source={require('../assets/images/test/logout.png')} style={{ marginRight: 15 }} />
+                                <Text style={{ color: 'white', fontFamily: 'Cairo', textAlign: 'right', marginRight: 10 }} > تسجيل الدخول  </Text>
+                            </TouchableOpacity>
+                    }
+                </SafeAreaView>
+            </View>
+        )
 
-
-                }
-            </SafeAreaView>
-        </View>
-    ),
+    },
 
 })
 const styles = StyleSheet.create({

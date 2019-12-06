@@ -57,3 +57,8 @@ export const getOnePost = async (id) => {
     const { data } = await http.get(`/posts/getOne/mobile/${id}`);
     return data
 }
+
+// export const getPostReactions = async (id) => {
+//     const { data } = await http.get(`/posts/reactions/${id}`);
+//     return data.data.reactions
+// }

@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './screens/Home';
 import { Root } from 'native-base';
+import { AuthProvider } from './services/auth';
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -29,8 +30,10 @@ export default function App() {
     ready != false ? (
       <>
         <Root>
-          <StatusBar barStyle="default" />
-          <HumburgerMenu />
+          <AuthProvider>
+            <StatusBar barStyle="default" />
+            <HumburgerMenu />
+          </AuthProvider>
         </Root>
 
       </>
