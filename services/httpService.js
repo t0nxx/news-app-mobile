@@ -10,21 +10,29 @@ export const checkCurrentUser = async () => {
     return true;
 }
 
-export const http = axois.create({
+const http = axois.create({
     baseURL: 'https://api.hakaya.news/',
 
 })
 
 http.interceptors.request.use(async (config) => {
-    if (checkCurrentUser() == true) {
+    // consider is login 
+    /**
+     * 
+     * 
+     * 
+     * dont forget it's not working
+     */
+    // if (checkCurrentUser() == true) {
         const jwt = await AsyncStorage.getItem('token');
         let user = await AsyncStorage.getItem('user');
         user = user ? JSON.parse(user) : null;
         config.headers.authorization = jwt;
         if (user != undefined && user != null) {
-            config.params.userId = user.id
+            config.params = { userId: user.id }
         }
 
-    }
+    // }
     return config;
 })
+exports.http = http;

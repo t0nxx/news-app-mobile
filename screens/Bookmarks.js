@@ -58,6 +58,10 @@ const BookmarksScreen = ({ params, navigation }) => {
                     data={posts}
                     renderItem={renderRow}
                     keyExtractor={(i, k) => k.toString()}
+                    // onRefresh={() => {
+                    //     setIsLoading(true);
+                    //     fetchAllData();
+                    // }}
                 />
             </View>)
 

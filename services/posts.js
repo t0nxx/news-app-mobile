@@ -39,7 +39,7 @@ export const getMyBookmarked = async () => {
         limit: 1000,
         page: 1,
     }
-    const { data } = await http.get('/posts?userId=1', {
+    const { data } = await http.get('/posts', {
         params
     });
 
@@ -62,3 +62,13 @@ export const getOnePost = async (id) => {
 //     const { data } = await http.get(`/posts/reactions/${id}`);
 //     return data.data.reactions
 // }
+
+export const bookmarkPost = async(id) => {
+    const data = await http.put(`/posts/bookmark/${id}`);
+    return data
+}
+
+export const unbookmarkPost = async(id) => {
+    const data = await http.put(`/posts/unbookmark/${id}`);
+    return data
+}
