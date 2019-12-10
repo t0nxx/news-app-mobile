@@ -21,9 +21,12 @@ const SinglePostScreen = ({ navigation }) => {
     // const [data, setData] = useState({});
     // const [htmlContent, setHtmlContent] = useState('<p>Loading</p>')
     const htmlStyles = {
-        p: { fontFamily: 'Cairo', fontSize: 15 },
-        strong: { fontFamily: 'Cairo', fontSize: 25 }
+        p: { fontFamily: 'Cairo', fontSize: 15, color: 'grey' },
+        u: { fontFamily: 'Cairo', fontSize: 18, color: 'grey' },
+        blockquote: { fontFamily: 'Cairo', fontSize: 18, color: 'grey' },
+        strong: { fontFamily: 'Cairo', fontSize: 18, color: 'grey' },
     }
+
     const data = navigation.getParam('data');
 
     // const fetchData = async () => {
@@ -62,12 +65,13 @@ const SinglePostScreen = ({ navigation }) => {
                     </View>
                 )}
             >
-                <ScrollView style={{ flex: 1, padding: 15, borderTopRightRadius: 50, borderTopLeftRadius: 50, backgroundColor: 'white' }}>
-                    <Text style={styles.text}>{data.title}</Text>
+                <ScrollView style={{ flex: 1, padding: 25, borderTopRightRadius: 50, borderTopLeftRadius: 50, backgroundColor: 'white' }}>
+                    <Text style={{ fontSize: 20, fontFamily: 'Cairo' }}>{data.title}</Text>
                     <HTML
                         html={data.body}
                         imagesMaxWidth={Dimensions.get('window').width}
                         tagsStyles={htmlStyles}
+                        baseFontStyle={{ fontSize: 15 }}
                     />
 
                     <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
@@ -79,7 +83,7 @@ const SinglePostScreen = ({ navigation }) => {
                             }}
                         >{data.user.fullName}</Text>
                     </View>
-                    <Text style={[styles.text, { textAlign: 'right', margin: 5, fontFamily: 'Cairo' }]}> المصدر </Text>
+                    <Text style={{ textAlign: 'right', margin: 5, fontFamily: 'Cairo', fontSize: 25 }}> المصدر </Text>
                     <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
                         <Thumbnail source={{ uri: data.source.backgroundImage }} />
                         <Text

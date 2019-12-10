@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
-import HomeScreen from './Home';
-import HeaderComponent from '../components/Header';
-import TabsComponent from '../components/Tabs';
-import FooterComponent from '../components/Footer';
-import { Container, Toast } from 'native-base';
-
-import { Formik } from 'formik';
+import { Container, Toast, Button, Thumbnail } from 'native-base';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import * as yup from 'yup';
 import { AuthContext } from '../services/auth';
 
 const validationSchema = yup.object().shape({
+    fullName: yup
+        .string()
+        .label('fullName')
+        .required('اسم المستخدم مطلوب')
+        .min(3, 'اسم المستخدم لايقل عن 3 حروف '),
     email: yup
         .string()
         .label('Email')
@@ -21,33 +22,67 @@ const validationSchema = yup.object().shape({
         .string()
         .label('Password')
         .required('الرقم السري مطلوب')
-        .min(6, 'اقل عدد من الحروف للرقم السري هو 6')
+        .min(6, 'اقل عدد من الحروف للرقم السري هو 6'),
+    passwordConfirm: yup.string()
+        .oneOf([yup.ref('password'), null], 'كلمة السر وتاكيد كلمة السر غير متشابهان ')
+
 });
 
 
 
-
-export const LoginScreen = ({ navigation }) => {
+export const SignUpScreen = ({ navigation }) => {
     // const [logErr, setLogErr] = useState(true);
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [img, setImg] = useState('');
     const [isLogin, setIsLogin] = useContext(AuthContext);
 
-    const login = async () => {
+    const selectPicture = async () => {
+        try {
+            await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const pick = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [3, 3],
+                allowsEditing: true,
+                base64: true
+            });
+            if (pick.cancelled == false) {
+                let filename = pick.uri.split('/').pop();
+                let fileExtention = filename.split('.')[1];
+                console.log(fileExtention)
+                const file = `data:image/${fileExtention};base64,${pick.base64}`;
+                setImg(file);
+            }
 
-        validationSchema.validate({ email: email, password: password })
+
+        } catch (error) {
+            console.log(error);
+        }
+        // if (!cancelled) setImg(uri);
+    };
+
+    const SignUp = async () => {
+
+        validationSchema.validate({ fullName: fullName, email: email, password: password, passwordConfirm: passwordConfirm })
             .then(async () => {
-                const { data } = await http.post('/auth/login', {
+                let body = {
+                    "fullName": fullName,
                     "email": email,
                     "password": password
-                });
+                };
+                if (img.length > 3) {
+                    body.img = img;
+                }
+                const { data } = await http.post('/users/new', body);
                 await AsyncStorage.setItem('token', data.token);
 
                 await AsyncStorage.setItem('user', JSON.stringify(data.data));
                 setIsLogin(true);
 
                 Toast.show({
-                    text: "تم تسجيل الدخول بنجاح ",
+                    text: "تم التسجيل بنجاح",
                     type: "success",
                     position: "top",
                     duration: 5000
@@ -55,7 +90,7 @@ export const LoginScreen = ({ navigation }) => {
                 navigation.navigate('Home');
             })
             .catch(err => {
-                let msg = "ايميل او باسورد خاطئ";
+                let msg = "البريد الالكتروني مسجل بالفعل"
                 if (err.errors && err.errors.length > 0) {
                     msg = err.errors;
                 }
@@ -72,7 +107,23 @@ export const LoginScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} />
+            {/* <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} /> */}
+
+            <TouchableHighlight onPress={() => selectPicture()}>
+                <>
+                    {img.length > 3 ? <Thumbnail large source={{uri :img}} />
+                        : <Thumbnail style={{ backgroundColor: '#FDC000' }} large source={require('../assets/images/test/user-big.png')} />
+                    }
+                    <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
+                </>
+            </TouchableHighlight>
+            <View style={styles.inputContainer}>
+                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
+                    placeholder=" اسم المستخدم    "
+                    keyboardType="default"
+                    underlineColorAndroid='transparent'
+                    onChangeText={(txt) => setFullName(txt)} />
+            </View>
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}
                     placeholder=" البريد الالكتروني    "
@@ -88,43 +139,30 @@ export const LoginScreen = ({ navigation }) => {
                     underlineColorAndroid='transparent'
                     onChangeText={(pass) => setPassword(pass)} />
             </View>
+            <View style={styles.inputContainer}>
+                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
+                    placeholder="تاكيد كلمة السر    "
+                    textContentType='password'
+                    secureTextEntry={true}
+                    underlineColorAndroid='transparent'
+                    onChangeText={(pass) => setPasswordConfirm(pass)} />
+            </View>
 
-            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => login()} >
-                <Text style={styles.text}>تسجيل الدخول</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => navigation.navigate('SignUp')}>
+            <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => SignUp()}>
                 <Text style={styles.text}>انشاء حساب</Text>
             </TouchableHighlight>
-            <Text style={{ color: 'white', fontFamily: 'Cairo', paddingTop: 10, fontSize: 12 }}>نسيت كلمة السر ؟</Text>
+
+            {/* <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]}  onPress={() => navigation.navigate('Login')} >
+                <Text style={styles.text}>تسجيل الدخول</Text>
+            </TouchableHighlight> */}
             <Text
                 style={{ color: 'white', fontFamily: 'Cairo', paddingTop: 30, textDecorationLine: 'underline', fontSize: 12 }}
                 onPress={() => navigation.navigate('Home')}
             > تخطي تسجيل الدخول </Text>
+
         </View>
     )
 
-
-}
-
-// LoginScreen.navigationOptions = ({ navigation }) => {
-//     return {
-//         drawerLabel: ()=> navigation.getParam('headerTitle'),
-//     }
-// }
-
-export const LogOutScreen = ({ navigation }) => {
-    const [isLogin, setIsLogin] = useContext(AuthContext);
-
-    const logout = async () => {
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('user');
-        setIsLogin(false);
-    }
-    logout();
-    return (
-        navigation.navigate('Home')
-    )
 
 }
 
@@ -174,4 +212,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// export default LoginScreen;
+export default SignUpScreen;

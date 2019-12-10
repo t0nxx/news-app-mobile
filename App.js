@@ -4,14 +4,15 @@ if (__DEV__) {
 
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
-import HumburgerMenu from './navigations/HumburgerMenu';
+import { Notifications } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import HomeScreen from './screens/Home';
 import { Root } from 'native-base';
 import { AuthProvider } from './services/auth';
+import NotificationModule from './Notifications';
+import HumburgerMenu from './navigations/HumburgerMenu';
 
-export default function App() {
+export default function App(props) {
   const [ready, setReady] = useState(false);
 
   const loadFonts = async () => {
@@ -25,6 +26,7 @@ export default function App() {
   }
   useEffect(() => {
     loadFonts();
+    NotificationModule();
   }, ready)
   return (
     ready != false ? (

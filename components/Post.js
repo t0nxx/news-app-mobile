@@ -13,7 +13,7 @@ const PostComponent = ({ id, title, category, backgroundImage, source, }) => {
                         </Badge>
                     </View>
                     <View style={{ right: 8, bottom: 4, position: 'absolute' }}>
-                        <H1 style={styles.text}>{title}</H1>
+                        <H1 style={{color : 'white' , fontFamily : 'Cairo' , fontSize : 25 ,}}>{title}</H1>
                     </View>
                 </ImageBackground>
             </CardItem>

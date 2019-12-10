@@ -17,6 +17,7 @@ import MySubscribeScreen from '../screens/MySubscribe';
 import SearchScreen from '../screens/SearchScreen';
 import { checkCurrentUser } from '../services/httpService';
 import { AuthContext } from '../services/auth';
+import SignUpScreen from '../screens/SignUp';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -91,6 +92,13 @@ const HumburgerMenu = createDrawerNavigator({
             drawerIcon: () => null,
         },
         screen: LogOutScreen
+    },
+    'SignUp': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: SignUpScreen
     },
     'Search': {
         screen: SearchScreen
