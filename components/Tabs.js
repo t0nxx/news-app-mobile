@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
 import { Tabs, Tab, Container, Content } from 'native-base';
 import { THEME_BACKGROUND_COLOR, THEME_FONT_COLOR } from '../Colors';
 import PostComponent from './Post';
 import { ScrollView } from 'react-native-gesture-handler';
-import { getAll1Posts } from '../services/posts';
+import { getAll1Posts, getMySub } from '../services/posts';
+import { AuthContext } from '../services/auth';
 
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
@@ -15,6 +16,7 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 };
 
 const TabsComponent = ({ params, navigation }) => {
+    const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
@@ -26,7 +28,7 @@ const TabsComponent = ({ params, navigation }) => {
     const [mostCommentPage, setMostCommentPage] = useState(1);
 
     const getLatestNews = async (n) => {
-        const allposts = await getAll1Posts('all', n);
+        const allposts = isLogin ? await getMySub(n) : await getAll1Posts('all', n);
         setPosts([...posts, ...allposts.data]);
     }
     const getMostRead = async (n) => {

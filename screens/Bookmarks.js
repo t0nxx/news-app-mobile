@@ -23,9 +23,11 @@ const BookmarksScreen = ({ params, navigation }) => {
     // }
 
     const fetchAllData = async () => {
+        setIsLoading(true);
         let { data } = await getMyBookmarked();
         data = data.filter(e => e.isBookmarked == true)
         setPosts([...data]);
+        setIsLoading(false);
 
     }
 
@@ -45,9 +47,7 @@ const BookmarksScreen = ({ params, navigation }) => {
 
     );
     useEffect(() => {
-        fetchAllData().then(() => {
-            setIsLoading(false);
-        })
+        fetchAllData();
     }, []);
 
     return (
@@ -58,10 +58,8 @@ const BookmarksScreen = ({ params, navigation }) => {
                     data={posts}
                     renderItem={renderRow}
                     keyExtractor={(i, k) => k.toString()}
-                    // onRefresh={() => {
-                    //     setIsLoading(true);
-                    //     fetchAllData();
-                    // }}
+                    refreshing={isLoading}
+                    onRefresh={() => fetchAllData()}
                 />
             </View>)
 

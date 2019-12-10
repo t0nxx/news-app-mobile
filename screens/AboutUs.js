@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Content, H1 } from 'native-base';
+import { Container, Content, H1 , Text } from 'native-base';
 import HeaderComponent from '../components/Header';
 import { getAboutUs } from '../services/drawer';
 
@@ -17,7 +17,7 @@ const AboutScreen = ({ navigation }) => {
         <Container>
             <HeaderComponent title="عن التطبيق" navigation={navigation} />
             <Content style={{ marginHorizontal: 20, marginTop: 20 }}>
-                <H1 style={{ fontFamily: 'Cairo' }}>{data.body}</H1>
+            <Text style={{ fontFamily: 'Cairo' , fontSize : 20 , color : 'grey' }}>{data.body}</Text>
             </Content>
         </Container>
     )

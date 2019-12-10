@@ -8,18 +8,21 @@ import TabsComponent from '../components/Tabs';
 import { checkCurrentUser } from '../services/httpService'
 import { AuthContext } from '../services/auth';
 import { Notifications } from 'expo';
+import { getOnePost } from '../services/posts';
 
 
 const HomeScreen = ({ navigation }) => {
     const [isLogin, setIsLogin] = useContext(AuthContext);
     console.log(isLogin);
     useEffect(() => {
-        Notifications.addListener((notificaton) => {
+        Notifications.addListener(async(notificaton) => {
 
             if (notificaton.origin == 'selected') {
                 console.log(notificaton);
                 const { data } = notificaton;
-                navigation.navigate('SinglePost', { id: data.postId });
+                const getfromServer = await getOnePost(data.postId);
+                console.log(getfromServer);
+                navigation.navigate('SinglePost', { data: getfromServer });
             }
             // navigation.navigate('Terms')
         })

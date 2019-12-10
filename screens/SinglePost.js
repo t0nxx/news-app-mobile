@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
-import { H1, Badge, Icon, Button, Thumbnail, Right, Body } from 'native-base'
-import { getPostReactions, bookmarkPost, unbookmarkPost } from '../services/posts';
+import React, { useState, useEffect, useContext } from 'react';
+import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Image, Linking } from 'react-native';
+import { H1, Badge, Icon, Button, Thumbnail, Right, Body, } from 'native-base'
+import { getPostReactions, bookmarkPost, unbookmarkPost, getOnePost, reactPost } from '../services/posts';
 import HeaderComponent from '../components/Header';
 import HTML from 'react-native-render-html';
 import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { AuthContext } from '../services/auth';
 
 
 
 const SinglePostScreen = ({ navigation }) => {
+    const params = navigation.getParam('data');
+    const [data, setData] = useState(params);
+
     const [isLoading, setIsLoading] = useState(true);
-    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(true);
+    const [isLogin, setIsLogin] = useContext(AuthContext);
+
     const [reactions, setReactions] = useState([]);
     const [likeCount, setLikeCount] = useState(0);
     const [loveCount, setLoveCount] = useState(0);
@@ -29,10 +36,13 @@ const SinglePostScreen = ({ navigation }) => {
         strong: { fontFamily: 'Cairo', fontSize: 18, color: 'grey' },
     }
 
-    const data = navigation.getParam('data');
+
 
     const bookmark = async () => {
         try {
+            if(!isLogin) {
+                return navigation.navigate('Login');
+            }
             setIsBookmarked(true);
             await bookmarkPost(data.id);
         } catch (error) {
@@ -42,8 +52,26 @@ const SinglePostScreen = ({ navigation }) => {
     }
     const Unbookmark = async () => {
         try {
+            if(!isLogin) {
+                return navigation.navigate('Login');
+            }
             setIsBookmarked(false);
             await unbookmarkPost(data.id);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const reactToPost = async (rct) => {
+        try {
+            if (!isLogin) {
+                return navigation.navigate('Login');
+            }
+            const newData = await reactPost(data.id, rct);
+            console.log(newData);
+            setData(newData);
+            setIsLoading(true);
+
         } catch (error) {
             console.log(error)
         }
@@ -55,16 +83,33 @@ const SinglePostScreen = ({ navigation }) => {
     //     console.log(reactions)
 
     //     }
+    const getpost = () => {
+        getOnePost(params.id).then(res => {
+            setIsBookmarked(res.isBookmarked);
+            setLikeCount(0);setLoveCount(0);setSadCount(0);setWowCount(0);sethahaCount(0);
+            res.reactions.forEach(element => {
+                if (element.reaction == 'like') { setLikeCount(element.count) }
+                if (element.reaction == 'wow') { setWowCount(element.count) }
+                if (element.reaction == 'sad') { setSadCount(element.count) }
+                if (element.reaction == 'angry') { setAngryCount(element.count) }
+                if (element.reaction == 'love') { setLoveCount(element.count) }
+                if (element.reaction == 'haha') { sethahaCount(element.count) }
+            });
+            setData(res);
+
+        }).finally(() => setIsLoading(false));
+    }
+
     useEffect(() => {
+
+        getpost();
         // fetchData().then(() => {
         //     setIsLoading(false);
         // });
-        setIsLoading(false);
-        setIsBookmarked(data.isBookmarked);
-    }, [navigation.getParam('data')]);
+    }, [navigation.getParam('data'),isLoading]);
     return (
 
-        isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
+        // isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
             <HeaderImageScrollView
                 maxHeight={500}
                 headerImage={{ uri: data.backgroundImage }}
@@ -140,6 +185,39 @@ const SinglePostScreen = ({ navigation }) => {
                             </Badge>
 
                         ))}
+                    </View>
+
+                    <View style={{ flex: 1, flexDirection: 'row', margin: 10, marginTop: 15 }}>
+                        <TouchableOpacity onPress={() => reactToPost('sad')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/sad.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احزنني</Text>
+                            <Text>{sadCount}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => reactToPost('angry')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/angry.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اغضبني</Text>
+                            <Text>{angryCount}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => reactToPost('wow')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/wow.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>ادهشني</Text>
+                            <Text>{wowCount}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => reactToPost('haha')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/lough.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اضحكني</Text>
+                            <Text>{hahaCount}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => reactToPost('love')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/love.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احببته</Text>
+                            <Text>{loveCount}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => reactToPost('like')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image source={require('../assets/images/emoji/like.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اعجبني</Text>
+                            <Text>{likeCount}</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </ScrollView>

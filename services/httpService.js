@@ -29,7 +29,7 @@ http.interceptors.request.use(async (config) => {
         user = user ? JSON.parse(user) : null;
         config.headers.authorization = jwt;
         if (user != undefined && user != null) {
-            config.params = { userId: user.id }
+            config.params = { ... config.params, userId: user.id }
         }
 
     // }

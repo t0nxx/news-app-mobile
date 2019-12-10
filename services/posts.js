@@ -55,7 +55,7 @@ export const searchPosts = async (query) => {
 
 export const getOnePost = async (id) => {
     const { data } = await http.get(`/posts/getOne/mobile/${id}`);
-    return data
+    return data.data
 }
 
 // export const getPostReactions = async (id) => {
@@ -71,4 +71,9 @@ export const bookmarkPost = async(id) => {
 export const unbookmarkPost = async(id) => {
     const data = await http.put(`/posts/unbookmark/${id}`);
     return data
+}
+
+export const reactPost = async(id,reaction) => {
+    const {data} = await http.post(`/posts/reactions/${id}?react=${reaction}`);
+    return data.data
 }

@@ -34,7 +34,7 @@ const HumburgerMenu = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'متابعاتي',
             drawerIcon: () => (
-                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+                <Icon name="archive" style={{ fontSize: 30, color: 'white' }} />
             ),
         },
         screen: MySubscribeScreen
@@ -43,7 +43,7 @@ const HumburgerMenu = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'عن البرنامج',
             drawerIcon: () => (
-                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+                <Icon name="eye" style={{ fontSize: 30, color: 'white' }} />
             ),
         },
         screen: AboutScreen
@@ -52,7 +52,7 @@ const HumburgerMenu = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'المساعدة',
             drawerIcon: () => (
-                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+                <Icon name="hand" style={{ fontSize: 30, color: 'white' }} />
             ),
         },
         screen: HelpScreen
@@ -61,7 +61,7 @@ const HumburgerMenu = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'شروط الاستخدام',
             drawerIcon: () => (
-                <Icon name="apps" style={{ fontSize: 30, color: 'white' }} />
+                <Icon name="clipboard" style={{ fontSize: 30, color: 'white' }} />
             ),
         },
         screen: TermsScreen
@@ -132,7 +132,7 @@ const HumburgerMenu = createDrawerNavigator({
           },
     },
     // kill every component after leave
-    // unmountInactiveRoutes: true,
+    unmountInactiveRoutes: true,
     contentComponent: (props) => {
         const [isLogin, setIsLogin] = useContext(AuthContext);
         return (

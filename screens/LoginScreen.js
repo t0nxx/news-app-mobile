@@ -123,7 +123,7 @@ export const LogOutScreen = ({ navigation }) => {
     }
     logout();
     return (
-        navigation.navigate('Home')
+        navigation.navigate('Login')
     )
 
 }
