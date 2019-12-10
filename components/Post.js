@@ -21,11 +21,11 @@ const PostComponent = ({ id, title, category, backgroundImage, source, }) => {
     )
 };
 
-const styles = StyleSheet.create({
-    text: {
-        fontFamily: 'Cairo',
-        color: 'white',
-        fontWeight: 'bold'
-    }
-})
+// const styles = StyleSheet.create({
+//     text: {
+//         fontFamily: 'Cairo',
+//         color: 'white',
+//         fontWeight: 'bold'
+//     }
+// })
 export default PostComponent;

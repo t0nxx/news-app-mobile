@@ -124,6 +124,12 @@ const HumburgerMenu = createDrawerNavigator({
             // for rtl lable
             flexDirection: 'row-reverse',
         },
+        labelStyle: {
+            fontFamily: 'Cairo',
+            fontWeight : 'normal',
+            color: 'white',
+            fontSize : 15
+          },
     },
     // kill every component after leave
     // unmountInactiveRoutes: true,
