@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "853033756451",
+    "firebase_url": "https://hakaya-b8401.firebaseio.com",
+    "project_id": "hakaya-b8401",
+    "storage_bucket": "hakaya-b8401.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853033756451:android:0f832159228f43d4254e96",
+        "android_client_info": {
+          "package_name": "com.hakaya.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853033756451-kd8u8lvmnpj4lq8809ahmk9ngdqa25pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfgi9vquY9jsj2Dz-jcyNdzWTGDMH29JY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "853033756451-kd8u8lvmnpj4lq8809ahmk9ngdqa25pi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

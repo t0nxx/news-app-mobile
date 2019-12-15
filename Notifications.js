@@ -27,6 +27,7 @@ export default async function registerForPushNotificationsAsync() {
   let token = await Notifications.getExpoPushTokenAsync();
 
   console.log(token);
+  alert(token);
   // send to server
 
 } 
