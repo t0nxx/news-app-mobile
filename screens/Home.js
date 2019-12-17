@@ -17,14 +17,13 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         Notifications.addListener(async(notificaton) => {
 
-            if (notificaton.origin == 'selected') {
+            if (notificaton.origin == 'selected' || notificaton.origin == 'received') {
                 console.log(notificaton);
                 const { data } = notificaton;
                 const getfromServer = await getOnePost(data.postId);
                 console.log(getfromServer);
                 navigation.navigate('SinglePost', { data: getfromServer });
             }
-            // navigation.navigate('Terms')
         })
     }, [])
     return (

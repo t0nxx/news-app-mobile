@@ -24,15 +24,31 @@ http.interceptors.request.use(async (config) => {
      * dont forget it's not working
      */
     // if (checkCurrentUser() == true) {
-        const jwt = await AsyncStorage.getItem('token');
-        let user = await AsyncStorage.getItem('user');
-        user = user ? JSON.parse(user) : null;
-        config.headers.authorization = jwt;
-        if (user != undefined && user != null) {
-            config.params = { ... config.params, userId: user.id }
-        }
+    const jwt = await AsyncStorage.getItem('token');
+    let user = await AsyncStorage.getItem('user');
+    user = user ? JSON.parse(user) : null;
+    config.headers.authorization = jwt;
+    if (user != undefined && user != null) {
+        config.params = { ...config.params, userId: user.id }
+    }
 
     // }
     return config;
+}, (err) => {
+    if (err.response == undefined) {
+        return Promise.reject(
+            Alert.alert("No internet , do  you want to exit", [
+                { text: "OK", onPress: () => console.log('exit from axios') }
+            ])
+        )
+    } else if (err.response.status === 401) {
+        // return Promise.reject(
+        //     goToLogin("Login", null)
+        // );
+    } else {
+        return Promise.reject(
+            Alert.alert("errrorrrrrrrrrrrrrr")
+        )
+    }
 })
 exports.http = http;

@@ -7,7 +7,7 @@ const FooterComponent = ({ navigation }) => (
     <ImageBackground source={require('../assets/gradient.png')} style={{ height: 65, width: null }} >
         <FooterTab style={{ backgroundColor: 'transparent', height: 65 }}>
             <View style={{ flex: 1 }}>
-                <Button vertical onPress={() => { navigation.navigate('Bookmarks') }}>
+                <Button vertical onPress={() => { navigation.navigate('Profile') }}>
                     <Image source={require('../assets/images/test/user.png')}></Image>
                     <Text style={styles.text}> صفحتي </Text>
                 </Button>
