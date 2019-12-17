@@ -111,7 +111,7 @@ export const SignUpScreen = ({ navigation }) => {
 
             <TouchableHighlight onPress={() => selectPicture()}>
                 <>
-                    {img.length > 3 ? <Thumbnail large source={{ uri: img }} />
+                    {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
                         : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 , backgroundColor : 'white' }} source={require('../assets/images/test/user-big.png')} />
                     }
                     <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>

@@ -131,26 +131,6 @@ export const ProfileScreen = ({ navigation }) => {
                 duration: 2000
             })
         }
-        // validationSchema.validate({ fullName: fullName, })
-        //     .then(async () => {
-        //         let body = {
-        //             "fullName": fullName,
-        //             "email": email,
-        //             "password": password
-        //         };
-        //         if (img.length > 3) {
-        //             body.img = img;
-        //         }
-                
-            
-        //     .catch(err => {
-        //         let msg = "البريد الالكتروني مسجل بالفعل"
-        //         if (err.errors && err.errors.length > 0) {
-        //             msg = err.errors;
-        //         }
-
-        //     });
-
 
     }
 
@@ -168,7 +148,7 @@ export const ProfileScreen = ({ navigation }) => {
                     <TouchableHighlight style={{ paddingBottom: 15 }} onPress={() => selectPicture()}>
                         <>
                             {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
-                                : <Thumbnail style={{ backgroundColor: '#FDC000' }} large source={require('../assets/images/test/user-big.png')} />
+                                : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} large source={require('../assets/images/test/user-big.png')} />
                             }
                             <Text style={{ color: 'black', fontFamily: 'Cairo', fontSize: 8 }}> اختر صورة </Text>
                         </>

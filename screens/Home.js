@@ -17,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         Notifications.addListener(async(notificaton) => {
 
-            if (notificaton.origin == 'selected' || notificaton.origin == 'received') {
+            if (notificaton.origin == 'selected') {
                 console.log(notificaton);
                 const { data } = notificaton;
                 const getfromServer = await getOnePost(data.postId);

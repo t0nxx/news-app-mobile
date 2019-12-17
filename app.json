@@ -1,12 +1,30 @@
 {
   "expo": {
-    "name": "news-app",
-    "slug": "news-app",
+    "name": "Hakaya",
+    "slug": "Hakaya",
+    "scheme": "hakaya",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "android": {
       "package": "com.hakaya.news",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "hakaya",
+              "host": "*.hakaya.news",
+              "pathPrefix": "/posts/getOne/mobile/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "platforms": [
       "ios",
