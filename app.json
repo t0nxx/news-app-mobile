@@ -24,7 +24,12 @@
             "DEFAULT"
           ]
         }
-      ]
+      ],
+      "config" : {
+        "branch" : {
+          "apiKey" :"key_live_jaSOj2AMrSGz9X7rzsuW7kpjvqotTEHY"
+        }
+      }
     },
     "platforms": [
       "ios",
