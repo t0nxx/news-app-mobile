@@ -12,58 +12,55 @@ import * as yup from 'yup';
 import { AuthContext } from '../services/auth';
 
 const validationSchema = yup.object().shape({
-    email: yup
-        .string()
-        .label('Email')
-        .email('البريد الالكتروني غير صالح')
-        .required('البريد الالكتروني مطلوب'),
     password: yup
         .string()
         .label('Password')
         .required('الرقم السري مطلوب')
-        .min(6, 'اقل عدد من الحروف للرقم السري هو 6')
+        .min(6, 'اقل عدد من الحروف للرقم السري هو 6'),
+    passwordConfirm: yup.string()
+        .oneOf([yup.ref('password'), null], 'كلمة السر وتاكيد كلمة السر غير متشابهان ')
+
 });
 
 
-
-
-export const LoginScreen = ({ navigation }) => {
+export const ForgetPasswordChangePassScreen = ({ navigation }) => {
     // const [logErr, setLogErr] = useState(true);
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLogin, setIsLogin] = useContext(AuthContext);
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const email = navigation.getParam('email');
+    const resetCode = navigation.getParam('resetCode');
 
     const login = async () => {
 
-        validationSchema.validate({ email: email, password: password })
+        validationSchema.validate({ password: password, passwordConfirm: passwordConfirm })
             .then(async () => {
-                const { data } = await http.post('/auth/login', {
+                const { data } = await http.post('/users/forgetpassword/resetcode/changepassword', {
                     "email": email,
+                    "resetCode": resetCode,
                     "password": password
                 });
-                await AsyncStorage.setItem('token', data.token);
-
-                await AsyncStorage.setItem('user', JSON.stringify(data.data));
-                setIsLogin(true);
 
                 Toast.show({
-                    text: "تم تسجيل الدخول بنجاح ",
+                    text: "تم تغيير كلمة السر ز برجاء اعادة الدخول ",
                     type: "success",
                     position: "top",
                     duration: 5000
                 })
-                navigation.navigate('Home');
+                navigation.navigate('Login');
             })
             .catch(err => {
-                let msg = "ايميل او باسورد خاطئ";
+                let msg = '';
                 if (err.errors && err.errors.length > 0) {
                     msg = err.errors;
+                } else {
+                    msg = err.response.data.message;
                 }
                 Toast.show({
                     text: msg,
                     type: "danger",
                     position: "top",
-                    duration: 5000
+                    duration: 2000
                 })
             });
 
@@ -75,58 +72,30 @@ export const LoginScreen = ({ navigation }) => {
             <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} />
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}
-                    placeholder=" البريد الالكتروني    "
-                    keyboardType="email-address"
-                    underlineColorAndroid='transparent'
-                    onChangeText={(em) => setEmail(em)} />
-            </View>
-            <View style={styles.inputContainer}>
-                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
-                    placeholder=" كلمة السر    "
+                    placeholder="  كلمة السر الجديدة   "
                     textContentType='password'
                     secureTextEntry={true}
                     underlineColorAndroid='transparent'
                     onChangeText={(pass) => setPassword(pass)} />
             </View>
+            <View style={styles.inputContainer}>
+                <TextInput style={[styles.inputs, { textAlign: 'center' }]}
+                    placeholder="تاكيد كلمة السر    "
+                    textContentType='password'
+                    secureTextEntry={true}
+                    underlineColorAndroid='transparent'
+                    onChangeText={(pass) => setPasswordConfirm(pass)} />
+            </View>
 
             <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => login()} >
-                <Text style={styles.text}>تسجيل الدخول</Text>
+                <Text style={styles.text}> التالي </Text>
             </TouchableHighlight>
-
-            <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => navigation.navigate('SignUp')}>
-                <Text style={styles.text}>انشاء حساب</Text>
-            </TouchableHighlight>
-            <Text style={{ color: 'white', fontFamily: 'Cairo', paddingTop: 10, fontSize: 12 }} onPress={() => navigation.navigate('ForgetPassword')}>نسيت كلمة السر ؟</Text>
-            <Text
-                style={{ color: 'white', fontFamily: 'Cairo', paddingTop: 30, textDecorationLine: 'underline', fontSize: 12 }}
-                onPress={() => navigation.navigate('Home')}
-            > تخطي تسجيل الدخول </Text>
         </View>
     )
 
 
 }
 
-// LoginScreen.navigationOptions = ({ navigation }) => {
-//     return {
-//         drawerLabel: ()=> navigation.getParam('headerTitle'),
-//     }
-// }
-
-export const LogOutScreen = ({ navigation }) => {
-    const [isLogin, setIsLogin] = useContext(AuthContext);
-
-    const logout = async () => {
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('user');
-        setIsLogin(false);
-    }
-    logout();
-    return (
-        navigation.navigate('Login')
-    )
-
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -174,4 +143,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// export default LoginScreen;
+export default ForgetPasswordChangePassScreen;

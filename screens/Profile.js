@@ -120,7 +120,7 @@ export const ProfileScreen = ({ navigation }) => {
                 
         } catch (err) {
             console.log(err);
-            let msg = err.message;
+            let msg = err.response.data.message;
             if (err.errors && err.errors.length > 0) {
                 msg = err.errors;
             }

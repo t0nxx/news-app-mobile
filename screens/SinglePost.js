@@ -8,12 +8,14 @@ import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { AuthContext } from '../services/auth';
+import Branch, { BranchEvent } from 'expo-branch';
 
 
 
 const SinglePostScreen = ({ navigation }) => {
     const params = navigation.getParam('data');
     const [data, setData] = useState(params);
+    const [branchObject, setbranchObject] = useState({});
 
     const [isLoading, setIsLoading] = useState(true);
     const [isBookmarked, setIsBookmarked] = useState(true);
@@ -40,7 +42,7 @@ const SinglePostScreen = ({ navigation }) => {
 
     const bookmark = async () => {
         try {
-            if(!isLogin) {
+            if (!isLogin) {
                 return navigation.navigate('Login');
             }
             setIsBookmarked(true);
@@ -52,7 +54,7 @@ const SinglePostScreen = ({ navigation }) => {
     }
     const Unbookmark = async () => {
         try {
-            if(!isLogin) {
+            if (!isLogin) {
                 return navigation.navigate('Login');
             }
             setIsBookmarked(false);
@@ -86,7 +88,7 @@ const SinglePostScreen = ({ navigation }) => {
     const getpost = () => {
         getOnePost(params.id).then(res => {
             setIsBookmarked(res.isBookmarked);
-            setLikeCount(0);setLoveCount(0);setSadCount(0);setWowCount(0);sethahaCount(0);
+            setLikeCount(0); setLoveCount(0); setSadCount(0); setWowCount(0); sethahaCount(0);
             res.reactions.forEach(element => {
                 if (element.reaction == 'like') { setLikeCount(element.count) }
                 if (element.reaction == 'wow') { setWowCount(element.count) }
@@ -100,128 +102,152 @@ const SinglePostScreen = ({ navigation }) => {
         }).finally(() => setIsLoading(false));
     }
 
+    async function share() {
+        const shareOptions = {
+            messageHeader: 'شارك الحكاية',
+            messageBody: `شارك المنشور !`,
+        };
+        let link = await branchObject.showShareSheet(shareOptions);
+        console.log(link);
+        alert(link);
+    }
+    async function createDeeplink() {
+        const boject = await Branch.createBranchUniversalObject(
+            `post_${params.id}`,
+            {
+                metadata: {
+                    screen: 'SinglePostScreen',
+                    params: JSON.stringify({ postId: params.id }),
+                },
+            }
+        ).then(() => setbranchObject(boject));
+    }
+
     useEffect(() => {
 
         getpost();
+        createDeeplink();
+
+
         // fetchData().then(() => {
         //     setIsLoading(false);
         // });
-    }, [navigation.getParam('data'),isLoading]);
+    }, [navigation.getParam('data'), isLoading]);
     return (
 
         // isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
-            <HeaderImageScrollView
-                maxHeight={500}
-                headerImage={{ uri: data.backgroundImage }}
-                overlayColor="white"
-                overScrollMode="never"
-                scrollViewBackgroundColor='transparent'
-                renderFixedForeground={() => (
-                    <View style={{ top: 30, height: 50, flex: 1, flexDirection: 'row' }} >
-                        <Button style={{ backgroundColor: '#B047E5', width: 80, borderTopRightRadius: 20, borderBottomRightRadius: 20, justifyContent: 'center' }}
-                            onPress={() => navigation.goBack()}>
-                            <Icon name={'arrow-back'} color='white' fontSize={100} />
-                        </Button>
+        <HeaderImageScrollView
+            maxHeight={500}
+            headerImage={{ uri: data.backgroundImage }}
+            overlayColor="white"
+            overScrollMode="never"
+            scrollViewBackgroundColor='transparent'
+            renderFixedForeground={() => (
+                <View style={{ top: 30, height: 50, flex: 1, flexDirection: 'row' }} >
+                    <Button style={{ backgroundColor: '#B047E5', width: 80, borderTopRightRadius: 20, borderBottomRightRadius: 20, justifyContent: 'center' }}
+                        onPress={() => navigation.goBack()}>
+                        <Icon name={'arrow-back'} color='white' fontSize={100} />
+                    </Button>
 
-                        {
-                            isBookmarked ? <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: '#87ceeb', fontSize: 40 }} onPress={() => Unbookmark()} />
-                                : <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
-                        }
+                    {
+                        isBookmarked ? <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: '#87ceeb', fontSize: 40 }} onPress={() => Unbookmark()} />
+                            : <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
+                    }
 
-                        <Icon name={'share'} style={{ left: 195, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => alert('share')} />
-                    </View>
-                )}
-            >
-                <ScrollView style={{ flex: 1, padding: 25, borderTopRightRadius: 50, borderTopLeftRadius: 50, backgroundColor: 'white' }}>
-                    <Text style={{ fontSize: 20, fontFamily: 'Cairo' }}>{data.title}</Text>
-                    <HTML
-                        html={data.body}
-                        imagesMaxWidth={Dimensions.get('window').width}
-                        tagsStyles={htmlStyles}
-                        baseFontStyle={{ fontSize: 15 }}
-                    />
+                    <Icon name={'share'} style={{ left: 195, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} />
+                </View>
+            )}
+        >
+            <ScrollView style={{ flex: 1, padding: 25, borderTopRightRadius: 50, borderTopLeftRadius: 50, backgroundColor: 'white' }}>
+                <Text style={{ fontSize: 20, fontFamily: 'Cairo' }}>{data.title}</Text>
+                <HTML
+                    html={data.body}
+                    imagesMaxWidth={Dimensions.get('window').width}
+                    tagsStyles={htmlStyles}
+                    baseFontStyle={{ fontSize: 15 }}
+                />
 
-                    <Divider style={{ backgroundColor: 'grey' }} />
+                <Divider style={{ backgroundColor: 'grey' }} />
 
-                    <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
-                        <Thumbnail source={{ uri: data.user.profileImage == 'no image' ? data.source.backgroundImage : data.user.profileImage }} />
-                        <Text
-                            style={{
-                                color: 'black', fontFamily: 'Cairo',
-                                marginTop: 20, marginRight: 15,
-                            }}
-                        >{data.user.fullName}</Text>
-                    </View>
-                    <Divider style={{ backgroundColor: 'grey' }} />
-                    {/* <Text style={{ textAlign: 'right', margin: 5, fontFamily: 'Cairo', fontSize: 25 }}> المصدر </Text> */}
-                    <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
-                        <Thumbnail source={{ uri: data.source.backgroundImage }} />
-                        <Text
-                            style={{
-                                color: 'blue', fontFamily: 'Cairo',
-                                marginTop: 20, marginRight: 10,
-                                textDecorationLine: 'underline'
-                            }}
-                            onPress={() => { Linking.openURL(`${data.source.link}`) }}
-                        // >{data.source.name}</Text>
-                        >رابط المصدر </Text>
-                    </View>
+                <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
+                    <Thumbnail source={{ uri: data.user.profileImage == 'no image' ? data.source.backgroundImage : data.user.profileImage }} />
+                    <Text
+                        style={{
+                            color: 'black', fontFamily: 'Cairo',
+                            marginTop: 20, marginRight: 15,
+                        }}
+                    >{data.user.fullName}</Text>
+                </View>
+                <Divider style={{ backgroundColor: 'grey' }} />
+                {/* <Text style={{ textAlign: 'right', margin: 5, fontFamily: 'Cairo', fontSize: 25 }}> المصدر </Text> */}
+                <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
+                    <Thumbnail source={{ uri: data.source.backgroundImage }} />
+                    <Text
+                        style={{
+                            color: 'blue', fontFamily: 'Cairo',
+                            marginTop: 20, marginRight: 10,
+                            textDecorationLine: 'underline'
+                        }}
+                        onPress={() => { Linking.openURL(`${data.source.link}`) }}
+                    // >{data.source.name}</Text>
+                    >رابط المصدر </Text>
+                </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10, flexWrap: 'wrap' }}>
-                        <Text style={{ color: '#F53099', fontFamily: 'Cairo', marginTop: 10 }}> الهاش تاج : </Text>
-                        {data.tags.map(e => (
-                            <Badge style={{ backgroundColor: '#DCDCDC', marginTop: 10, marginLeft: 3 }} key={e.id}>
-                                <Text style={{ color: '#F53099', fontFamily: 'Cairo', }}>{e.name}</Text>
-                            </Badge>
+                <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10, flexWrap: 'wrap' }}>
+                    <Text style={{ color: '#F53099', fontFamily: 'Cairo', marginTop: 10 }}> الهاش تاج : </Text>
+                    {data.tags.map(e => (
+                        <Badge style={{ backgroundColor: '#DCDCDC', marginTop: 10, marginLeft: 3 }} key={e.id}>
+                            <Text style={{ color: '#F53099', fontFamily: 'Cairo', }}>{e.name}</Text>
+                        </Badge>
 
-                        ))}
-                    </View>
+                    ))}
+                </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10, flexWrap: 'wrap' }}>
-                        <Text style={{ color: '#F53099', fontFamily: 'Cairo', marginTop: 10 }}> التصنيفات : </Text>
-                        {data.categories.map(e => (
-                            <Badge style={{ backgroundColor: '#DCDCDC', marginTop: 10, marginLeft: 3 }} key={e.id}>
-                                <Text style={{ color: '#F53099', fontFamily: 'Cairo', }}>{e.name}</Text>
-                            </Badge>
+                <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10, flexWrap: 'wrap' }}>
+                    <Text style={{ color: '#F53099', fontFamily: 'Cairo', marginTop: 10 }}> التصنيفات : </Text>
+                    {data.categories.map(e => (
+                        <Badge style={{ backgroundColor: '#DCDCDC', marginTop: 10, marginLeft: 3 }} key={e.id}>
+                            <Text style={{ color: '#F53099', fontFamily: 'Cairo', }}>{e.name}</Text>
+                        </Badge>
 
-                        ))}
-                    </View>
+                    ))}
+                </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row', margin: 10, marginTop: 15 }}>
-                        <TouchableOpacity onPress={() => reactToPost('sad')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/sad.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احزنني</Text>
-                            <Text>{sadCount}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => reactToPost('angry')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/angry.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اغضبني</Text>
-                            <Text>{angryCount}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => reactToPost('wow')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/wow.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>ادهشني</Text>
-                            <Text>{wowCount}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => reactToPost('haha')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/lough.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اضحكني</Text>
-                            <Text>{hahaCount}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => reactToPost('love')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/love.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احببته</Text>
-                            <Text>{loveCount}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => reactToPost('like')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={require('../assets/images/emoji/like.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
-                            <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اعجبني</Text>
-                            <Text>{likeCount}</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={{ flex: 1, flexDirection: 'row', margin: 10, marginTop: 15 }}>
+                    <TouchableOpacity onPress={() => reactToPost('sad')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/sad.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احزنني</Text>
+                        <Text>{sadCount}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => reactToPost('angry')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/angry.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اغضبني</Text>
+                        <Text>{angryCount}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => reactToPost('wow')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/wow.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>ادهشني</Text>
+                        <Text>{wowCount}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => reactToPost('haha')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/lough.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اضحكني</Text>
+                        <Text>{hahaCount}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => reactToPost('love')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/love.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احببته</Text>
+                        <Text>{loveCount}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => reactToPost('like')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image source={require('../assets/images/emoji/like.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
+                        <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>اعجبني</Text>
+                        <Text>{likeCount}</Text>
+                    </TouchableOpacity>
+                </View>
 
-                </ScrollView>
-            </HeaderImageScrollView>
+            </ScrollView>
+        </HeaderImageScrollView>
     )
 
 };

@@ -18,6 +18,9 @@ import SearchScreen from '../screens/SearchScreen';
 import { checkCurrentUser } from '../services/httpService';
 import { AuthContext } from '../services/auth';
 import SignUpScreen from '../screens/SignUp';
+import ForgetPasswordScreen from '../screens/ForgetPassword';
+import ForgetPasswordCodeScreen from '../screens/ForgetPasswordCode';
+import ForgetPasswordChangePassScreen from '../screens/ForgetPasswordChangePass';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -100,6 +103,27 @@ const HumburgerMenu = createDrawerNavigator({
         },
         screen: SignUpScreen
     },
+    'ForgetPassword': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: ForgetPasswordScreen
+    },
+    'ResetCode': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: ForgetPasswordCodeScreen
+    },
+    'ChangePasswordAfterReset': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: ForgetPasswordChangePassScreen
+    },
     'Search': {
         screen: SearchScreen
     },
@@ -126,10 +150,10 @@ const HumburgerMenu = createDrawerNavigator({
         },
         labelStyle: {
             fontFamily: 'Cairo',
-            fontWeight : 'normal',
+            fontWeight: 'normal',
             color: 'white',
-            fontSize : 15
-          },
+            fontSize: 15
+        },
     },
     // kill every component after leave
     unmountInactiveRoutes: true,
