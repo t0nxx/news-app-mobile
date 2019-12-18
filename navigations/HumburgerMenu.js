@@ -132,7 +132,7 @@ const HumburgerMenu = createDrawerNavigator({
           },
     },
     // kill every component after leave
-    // unmountInactiveRoutes: true,
+    unmountInactiveRoutes: true,
     contentComponent: (props) => {
         const [isLogin, setIsLogin] = useContext(AuthContext);
         return (

@@ -1,5 +1,6 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import { http } from './services/httpService';
 
 // const PUSH_ENDPOINT = 'https://your-server.com/users/push-token';
 
@@ -27,10 +28,13 @@ export default async function registerForPushNotificationsAsync() {
   let token = await Notifications.getExpoPushTokenAsync();
 
   console.log(token);
-  alert(token);
+
   // send to server
 
-} 
+  const { data } = await http.put('/users/update/me/addNotificationToken', { newToken: token });
+  console.log(data);
+
+}
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
 //   return fetch(PUSH_ENDPOINT, {
