@@ -58,22 +58,55 @@ export const getOnePost = async (id) => {
     return data.data
 }
 
+export const getAllComments = async (id, page) => {
+    let params = {
+        limit: 10,
+        page: page,
+    }
+    const { data } = await http.get(`/comments?postId=${id}`, {
+        params
+    });
+    return data.data
+}
+
+export const getAllMyComments = async (page) => {
+    let params = {
+        limit: 10,
+        page: page,
+    }
+    const { data } = await http.get(`/comments/me`, {
+        params
+    });
+    return data.data
+}
+
+export const getAllRepliesOfComment = async (id, parentId, page) => {
+    let params = {
+        limit: 10,
+        page: page,
+    }
+    const { data } = await http.get(`/comments?postId=${id}&parentId=${parentId}`, {
+        params
+    });
+    return data.data
+}
+
 // export const getPostReactions = async (id) => {
 //     const { data } = await http.get(`/posts/reactions/${id}`);
 //     return data.data.reactions
 // }
 
-export const bookmarkPost = async(id) => {
+export const bookmarkPost = async (id) => {
     const data = await http.put(`/posts/bookmark/${id}`);
     return data
 }
 
-export const unbookmarkPost = async(id) => {
+export const unbookmarkPost = async (id) => {
     const data = await http.put(`/posts/unbookmark/${id}`);
     return data
 }
 
-export const reactPost = async(id,reaction) => {
-    const {data} = await http.post(`/posts/reactions/${id}?react=${reaction}`);
+export const reactPost = async (id, reaction) => {
+    const { data } = await http.post(`/posts/reactions/${id}?react=${reaction}`);
     return data.data
 }

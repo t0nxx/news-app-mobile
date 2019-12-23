@@ -21,6 +21,8 @@ import SignUpScreen from '../screens/SignUp';
 import ForgetPasswordScreen from '../screens/ForgetPassword';
 import ForgetPasswordCodeScreen from '../screens/ForgetPasswordCode';
 import ForgetPasswordChangePassScreen from '../screens/ForgetPasswordChangePass';
+import CommentsScreen from '../screens/Comments';
+import CommentsReplyScreen from '../screens/ReplyOnComment';
 
 
 const HumburgerMenu = createDrawerNavigator({
@@ -81,6 +83,20 @@ const HumburgerMenu = createDrawerNavigator({
     },
     'SinglePost': {
         screen: SinglePostScreen
+    },
+    'Comments': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: CommentsScreen
+    },
+    'Replies': {
+        navigationOptions: {
+            drawerLabel: () => null,
+            drawerIcon: () => null,
+        },
+        screen: CommentsReplyScreen
     },
     'Login': {
         navigationOptions: {

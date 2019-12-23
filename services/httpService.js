@@ -45,6 +45,10 @@ http.interceptors.request.use(async (config) => {
         // return Promise.reject(
         //     goToLogin("Login", null)
         // );
+    } else if (err.response.status === 500) {
+        return Promise.reject(
+           console.log('errrrrrrrrr' + err.response)
+        );
     } else {
         return Promise.reject(
             Alert.alert("errrorrrrrrrrrrrrrr")

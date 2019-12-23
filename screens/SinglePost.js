@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Image, Linking } from 'react-native';
+import { ScrollView, Dimensions, View, Text, ActivityIndicator, StyleSheet, TouchableOpacity, Image, Linking, TextInput } from 'react-native';
 import { H1, Badge, Icon, Button, Thumbnail, Right, Body, } from 'native-base'
 import { getPostReactions, bookmarkPost, unbookmarkPost, getOnePost, reactPost } from '../services/posts';
 import HeaderComponent from '../components/Header';
@@ -8,7 +8,7 @@ import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { AuthContext } from '../services/auth';
-import Branch, { BranchEvent } from 'expo-branch';
+// import Branch, { BranchEvent } from 'expo-branch';
 
 
 
@@ -103,24 +103,24 @@ const SinglePostScreen = ({ navigation }) => {
     }
 
     async function share() {
-        const shareOptions = {
-            messageHeader: 'شارك الحكاية',
-            messageBody: `شارك المنشور !`,
-        };
-        let link = await branchObject.showShareSheet(shareOptions);
-        console.log(link);
-        alert(link);
+        // const shareOptions = {
+        //     messageHeader: 'شارك الحكاية',
+        //     messageBody: `شارك المنشور !`,
+        // };
+        // let link = await branchObject.showShareSheet(shareOptions);
+        // console.log(link);
+        // alert(link);
     }
     async function createDeeplink() {
-        const boject = await Branch.createBranchUniversalObject(
-            `post_${params.id}`,
-            {
-                metadata: {
-                    screen: 'SinglePostScreen',
-                    params: JSON.stringify({ postId: params.id }),
-                },
-            }
-        ).then(() => setbranchObject(boject));
+        // const boject = await Branch.createBranchUniversalObject(
+        //     `post_${params.id}`,
+        //     {
+        //         metadata: {
+        //             screen: 'SinglePostScreen',
+        //             params: JSON.stringify({ postId: params.id }),
+        //         },
+        //     }
+        // ).then(() => setbranchObject(boject));
     }
 
     useEffect(() => {
@@ -246,6 +246,23 @@ const SinglePostScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
+                <TouchableOpacity style={styles.inputContainer}
+                    onPress={() => navigation.navigate({ key: Math.random() * 10000, routeName: 'Comments', params: { data: data.id } })}>
+
+                    {/* <TextInput
+                        style={styles.inputs}
+                        placeholder="اكنب تعليق"
+                    /> */}
+                    <Text style={{ fontFamily: 'Cairo', color: 'white', fontSize: 15, alignSelf: 'center', left: 100 }}>   عدد التعليقات {data.commentsCount}</Text>
+
+                    <Button
+                        rounded style={{ backgroundColor: 'red', width: 40, height: 40, marginTop: 5, position: 'absolute', left: 10 }}
+                        onPress={() => navigation.navigate({ key: Math.random() * 10000, routeName: 'Comments', params: { data: data.id } })}
+                    >
+                        <Image style={{ marginLeft: 10 }} source={require('../assets/images/test/submit.png')}></Image>
+                    </Button>
+                </TouchableOpacity>
+
             </ScrollView>
         </HeaderImageScrollView>
     )
@@ -258,6 +275,38 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
 
     },
+    inputContainer: {
+        borderBottomColor: '#F5FCFF',
+        backgroundColor: '#DCDCDC',
+        borderRadius: 30,
+        borderBottomWidth: 1,
+        height: 50,
+        margin: 10,
+        marginBottom: 5,
+        flexDirection: 'row',
+    },
+    inputs: {
+        height: 45,
+        marginRight: 15,
+        borderBottomColor: '#FFFFFF',
+        flex: 1,
+        fontFamily: 'Cairo',
+        padding: 3,
+        textAlign: 'right',
+        // backgroundColor: '#DCDCDC',
+        borderRadius: 10,
+        flexWrap: 'wrap',
+
+    },
+    buttonContainer: {
+        height: 45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 5,
+        width: 280,
+        borderRadius: 30,
+    }
 })
 SinglePostScreen.navigationOptions = ({ navigation }) => {
     return {
