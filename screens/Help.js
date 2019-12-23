@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage, StyleSheet } from 'react-native'
+import { AsyncStorage, StyleSheet, Share } from 'react-native'
 import { Container, Content, H1, Item, Input, Textarea, Form, Text, Toast } from 'native-base';
 import HeaderComponent from '../components/Header';
 import * as yup from 'yup';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import Branch, { BranchEvent } from 'expo-branch';
 
 const HelpScreen = ({ params, navigation }) => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [sug, setSug] = useState('');
+    const [branchObject, setbranchObject] = useState({});
     const validationSchema = yup.object().shape({
         fullName: yup
             .string()
@@ -71,27 +73,60 @@ const HelpScreen = ({ params, navigation }) => {
 
     }
 
+    Branch.subscribe(bundle => {
+        if (bundle && bundle.params && !bundle.error) {
+            // `bundle.params` contains all the info about the link.
+            alert(bundle.params);
+        }
+    });
+
+    async function share() {
+        const shareOptions = {
+            messageHeader: 'شارك الحكاية',
+            messageBody: `شارك المنشور !`,
+        };
+        let link = await branchObject.showShareSheet(shareOptions);
+        console.log(link);
+        alert(link);
+    }
+    async function createDeeplink() {
+        await Branch.createBranchUniversalObject(
+            `post_49`,
+            {
+                metadata: {
+                    screen: 'SinglePostScreen',
+                    params: JSON.stringify({ postId: 49 }),
+                },
+            }
+        ).then((obj) => setbranchObject(obj));
+    }
+
 
     useEffect(() => {
+        createDeeplink();
     }, []);
     return (
         <Container>
             <HeaderComponent title="Help Me" navigation={navigation} />
             <Content style={{ marginHorizontal: 15, marginTop: 15 }}>
                 <Item>
-                    <Input placeholder="الاسم" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }}  onChangeText={(em) => setFullName(em)} />
+                    <Input placeholder="الاسم" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }} onChangeText={(em) => setFullName(em)} />
                 </Item>
                 <Item>
-                    <Input placeholder="البريد الالكتروني" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }}  onChangeText={(em) => setEmail(em)}/>
+                    <Input placeholder="البريد الالكتروني" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }} onChangeText={(em) => setEmail(em)} />
                 </Item>
                 <Item>
-                    <Input placeholder="رقمك التليفون" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }}  onChangeText={(em) => setPhone(em)}/>
+                    <Input placeholder="رقمك التليفون" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }} onChangeText={(em) => setPhone(em)} />
                 </Item>
 
-                <Textarea bordered rowSpan={5} placeholder="ماهو اقتراحك او طلبك" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }}  onChangeText={(em) => setSug(em)}/>
+                <Textarea bordered rowSpan={5} placeholder="ماهو اقتراحك او طلبك" style={{ textAlign: 'right', marginBottom: 10, fontFamily: 'Cairo' }} onChangeText={(em) => setSug(em)} />
 
                 <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => Send()}>
                     <Text style={{ color: 'white', fontFamily: 'Cairo' }}>ارسل</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => share()}>
+                    <Text style={{ color: 'white', fontFamily: 'Cairo' }}>share</Text>
                 </TouchableHighlight>
             </Content>
         </Container>

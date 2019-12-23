@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 28385,
+  "expoServerNgrokUrl": "https://q3-f9s.t0nxx.news-app-mobile.exp.direct",
+  "packagerNgrokUrl": "https://packager.q3-f9s.t0nxx.news-app-mobile.exp.direct",
+  "ngrokPid": 28435,
   "webpackServerPort": null
 }

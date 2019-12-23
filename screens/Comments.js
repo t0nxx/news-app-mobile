@@ -7,7 +7,6 @@ import { getAllComments } from '../services/posts';
 import { AuthContext } from '../services/auth';
 import HeaderComponent from '../components/Header';
 import { Divider } from 'react-native-paper';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 
