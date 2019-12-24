@@ -32,8 +32,8 @@ const HomeScreen = ({ navigation }) => {
             if (bundle && bundle.params && !bundle.error) {
                 // `bundle.params` contains all the info about the link.
                 alert(JSON.stringify(bundle.params, null, 4));
-                if (bundle.params.$cononical_identifier) {
-                    let id = parseInt(bundle.params.$cononical_identifier,10);
+                if (bundle.params.$canonical_identifier) {
+                    let id = parseInt(bundle.params.$canonical_identifier,10);
                     const getfromServer = await getOnePost(id);
                     console.log(getfromServer);
                     navigation.navigate('SinglePost', { data: getfromServer });
