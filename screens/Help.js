@@ -80,7 +80,7 @@ const HelpScreen = ({ params, navigation }) => {
         };
         let link = await branchObject.showShareSheet(shareOptions);
         console.log(link);
-        alert( alert(JSON.stringify(link, null, 4)));
+        alert(JSON.stringify(link, null, 4));
     }
     async function createDeeplink() {
         await Branch.createBranchUniversalObject(
