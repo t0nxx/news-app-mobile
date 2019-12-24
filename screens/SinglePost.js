@@ -8,7 +8,7 @@ import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { AuthContext } from '../services/auth';
-// import Branch, { BranchEvent } from 'expo-branch';
+import Branch, { BranchEvent } from 'expo-branch';
 
 
 
@@ -103,24 +103,26 @@ const SinglePostScreen = ({ navigation }) => {
     }
 
     async function share() {
-        // const shareOptions = {
-        //     messageHeader: 'شارك الحكاية',
-        //     messageBody: `شارك المنشور !`,
-        // };
-        // let link = await branchObject.showShareSheet(shareOptions);
+        const shareOptions = {
+            messageHeader: 'شارك الحكاية',
+            messageBody: `شارك الحكاية !`,
+        };
+        let link = await branchObject.showShareSheet(shareOptions);
         // console.log(link);
-        // alert(link);
+        // alert(JSON.stringify(link, null, 4));
     }
     async function createDeeplink() {
-        // const boject = await Branch.createBranchUniversalObject(
-        //     `post_${params.id}`,
-        //     {
-        //         metadata: {
-        //             screen: 'SinglePostScreen',
-        //             params: JSON.stringify({ postId: params.id }),
-        //         },
-        //     }
-        // ).then(() => setbranchObject(boject));
+        let sharePostid = `${data.id}`.toString();
+        await Branch.createBranchUniversalObject(
+            sharePostid,
+            {
+                metadata: {
+                    screen: 'SinglePostScreen',
+                    params: JSON.stringify({ postId: 49 }),
+                },
+            }
+        ).then((obj) => setbranchObject(obj));
+
     }
 
     useEffect(() => {

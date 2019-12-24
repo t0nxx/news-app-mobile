@@ -20,10 +20,10 @@ const HomeScreen = ({ navigation }) => {
         Notifications.addListener(async (notificaton) => {
 
             if (notificaton.origin == 'selected') {
-                console.log(notificaton);
+                // console.log(notificaton);
                 const { data } = notificaton;
                 const getfromServer = await getOnePost(data.postId);
-                console.log(getfromServer);
+                // console.log(getfromServer);
                 navigation.navigate('SinglePost', { data: getfromServer });
             }
         });
@@ -31,11 +31,9 @@ const HomeScreen = ({ navigation }) => {
         Branch.subscribe(async bundle => {
             if (bundle && bundle.params && !bundle.error) {
                 // `bundle.params` contains all the info about the link.
-                alert(JSON.stringify(bundle.params, null, 4));
                 if (bundle.params.$canonical_identifier) {
                     let id = parseInt(bundle.params.$canonical_identifier,10);
                     const getfromServer = await getOnePost(id);
-                    console.log(getfromServer);
                     navigation.navigate('SinglePost', { data: getfromServer });
                 }
 

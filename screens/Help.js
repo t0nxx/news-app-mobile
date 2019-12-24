@@ -4,7 +4,7 @@ import { Container, Content, H1, Item, Input, Textarea, Form, Text, Toast } from
 import HeaderComponent from '../components/Header';
 import * as yup from 'yup';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import Branch, { BranchEvent } from 'expo-branch';
+
 
 const HelpScreen = ({ params, navigation }) => {
     const [fullName, setFullName] = useState('');
@@ -73,31 +73,10 @@ const HelpScreen = ({ params, navigation }) => {
 
     }
 
-    async function share() {
-        const shareOptions = {
-            messageHeader: 'شارك الحكاية',
-            messageBody: `شارك الحكاية !`,
-        };
-        let link = await branchObject.showShareSheet(shareOptions);
-        // console.log(link);
-        // alert(JSON.stringify(link, null, 4));
-    }
-    async function createDeeplink() {
-        await Branch.createBranchUniversalObject(
-            '49',
-            {
-                metadata: {
-                    screen: 'SinglePostScreen',
-                    params: JSON.stringify({ postId: 49 }),
-                },
-            }
-        ).then((obj) => {setbranchObject(obj); alert(JSON.stringify(obj, null, 4));});
-
-    }
 
 
     useEffect(() => {
-        createDeeplink();
+      
     }, []);
     return (
         <Container>
@@ -119,9 +98,6 @@ const HelpScreen = ({ params, navigation }) => {
                     <Text style={{ color: 'white', fontFamily: 'Cairo' }}>ارسل</Text>
                 </TouchableHighlight>
 
-                <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => share()}>
-                    <Text style={{ color: 'white', fontFamily: 'Cairo' }}>share</Text>
-                </TouchableHighlight>
             </Content>
         </Container>
 
