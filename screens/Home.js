@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
             }
         });
 
-        Branch.subscribe(bundle => {
+        Branch.subscribe(async bundle => {
             if (bundle && bundle.params && !bundle.error) {
                 // `bundle.params` contains all the info about the link.
                 alert(JSON.stringify(bundle.params, null, 4));
