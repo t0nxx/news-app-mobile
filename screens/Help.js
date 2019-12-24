@@ -76,14 +76,15 @@ const HelpScreen = ({ params, navigation }) => {
     Branch.subscribe(bundle => {
         if (bundle && bundle.params && !bundle.error) {
             // `bundle.params` contains all the info about the link.
-            alert(bundle.params);
+            alert(JSON.stringify(bundle.params, null, 4));
+            
         }
     });
 
     async function share() {
         const shareOptions = {
             messageHeader: 'شارك الحكاية',
-            messageBody: `شارك المنشور !`,
+            messageBody: `شارك الحكاية !`,
         };
         let link = await branchObject.showShareSheet(shareOptions);
         console.log(link);
