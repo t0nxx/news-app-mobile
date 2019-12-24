@@ -79,8 +79,8 @@ const HelpScreen = ({ params, navigation }) => {
             messageBody: `شارك الحكاية !`,
         };
         let link = await branchObject.showShareSheet(shareOptions);
-        console.log(link);
-        alert(JSON.stringify(link, null, 4));
+        // console.log(link);
+        // alert(JSON.stringify(link, null, 4));
     }
     async function createDeeplink() {
         await Branch.createBranchUniversalObject(
@@ -91,7 +91,8 @@ const HelpScreen = ({ params, navigation }) => {
                     params: JSON.stringify({ postId: 49 }),
                 },
             }
-        ).then((obj) => setbranchObject(obj));
+        ).then((obj) => {setbranchObject(obj); alert(JSON.stringify(obj, null, 4));});
+
     }
 
 
