@@ -84,7 +84,7 @@ const HelpScreen = ({ params, navigation }) => {
     }
     async function createDeeplink() {
         await Branch.createBranchUniversalObject(
-            `post_49`,
+            '49',
             {
                 metadata: {
                     screen: 'SinglePostScreen',
