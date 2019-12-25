@@ -3,7 +3,7 @@ if (__DEV__) {
 }
 
 import React, { useEffect, useState, useContext } from 'react';
-import { StatusBar, AsyncStorage } from 'react-native';
+import { StatusBar, AsyncStorage , I18nManager} from 'react-native';
 import { Notifications } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,6 +22,8 @@ export default function App(props) {
       Cairo: require('./assets/fonts/Cairo-Regular.ttf'),
       ...Ionicons.font,
     });
+    I18nManager.allowRTL(false);
+    I18nManager.forceRTL(false);
     setReady(true);
   }
   useEffect(() => {
