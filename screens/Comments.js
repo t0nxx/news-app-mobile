@@ -44,7 +44,7 @@ const CommentsScreen = ({ params, navigation }) => {
             }
             const data = await http.post('/comments/new', {
                 body: newComment,
-                postId: 49,
+                postId: post,
             });
             setIsLoading(true);
             await fetchAllDataAfterNewComment();
