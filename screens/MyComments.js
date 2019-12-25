@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, Image, TouchableHighlight, FlatList, TextInput, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import { Tabs, Tab, Container, Content, Button, Icon, Thumbnail, Badge, Toast } from 'native-base';
-import { getAllMyComments } from '../services/posts';
+import { getAllMyComments, getOnePost } from '../services/posts';
 import { AuthContext } from '../services/auth';
 import HeaderComponent from '../components/Header';
 import { Divider } from 'react-native-paper';
@@ -25,7 +25,11 @@ const MyCommentsScreen = ({ params, navigation }) => {
         setIsLoading(false);
     }
     const renderRow = ({ item, index, data }) => (
-        <TouchableHighlight>
+        <TouchableHighlight onPress={async () => {
+            const getfromServer = await getOnePost(item.post.id);
+            // console.log(getfromServer);
+            return navigation.navigate('SinglePost', { data: getfromServer });
+        }}>
             <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, flexDirection: 'row-reverse', margin: 10 }}>
                     <Thumbnail square source={{ uri: item.user.profileImage == 'no image' ? item.user.profileImage : item.user.profileImage }} />
