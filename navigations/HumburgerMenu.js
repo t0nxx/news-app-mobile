@@ -66,7 +66,7 @@ const HumburgerMenu = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'شروط الاستخدام',
             drawerIcon: () => (
-                <Icon name="clipboard" style={{ fontSize: 30, color: 'white' }} />
+                <Icon name="clipboard" style={{ fontSize: 30, color: '#fff' }} />
             ),
         },
         screen: TermsScreen

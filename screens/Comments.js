@@ -111,7 +111,7 @@ const CommentsScreen = ({ params, navigation }) => {
                     <Button rounded style={{ backgroundColor: 'red', width: 40, height: 40, marginTop: 5, position: 'absolute', left: 10 }}
                         onPress={() => addComment()}
                     >
-                        <Image style={{ marginLeft: 10 }} source={require('../assets/images/test/submit.png')}></Image>
+                        <Image style={{ marginLeft: 12 }} source={require('../assets/images/test/submit.png')}></Image>
                     </Button>
                 </View>
                 <Content style={{ marginHorizontal: 20, marginTop: 5 }}>

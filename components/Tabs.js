@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
 import { Tabs, Tab, Container, Content } from 'native-base';
 import { THEME_BACKGROUND_COLOR, THEME_FONT_COLOR } from '../Colors';
@@ -71,28 +71,27 @@ const TabsComponent = ({ params, navigation }) => {
 
     }, []);
     return (
-        <Tabs tabBarUnderlineStyle={Tabstyles.tabBarUnderlineStyle}    >
-            <Tab heading="اخر الاخبار"
+        <Tabs tabBarUnderlineStyle={Tabstyles.tabBarUnderlineStyle} initialPage={2}  >
+            <Tab heading="الاكثر تعليق"
                 tabStyle={Tabstyles.tabStyle}
                 activeTabStyle={Tabstyles.activeTabStyle}
                 activeTextStyle={Tabstyles.activeTextStyle}
                 textStyle={Tabstyles.textStyle}
             >
+
                 {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
                     (<View style={{ flex: 1 }}>
                         <FlatList
-                            data={posts}
+                            data={mostComment}
                             renderItem={renderRow}
                             keyExtractor={(i, k) => k.toString()}
                             onEndReached={() => {
-                                setPostsPage(postsPage + 1);
-                                // here cause i wont re render the component every time
-                                getLatestNews(postsPage + 1);
+                                setMostCommentPage(mostCommentPage + 1);
+                                getMostComment(mostCommentPage + 1);
                             }}
                         />
                     </View>)
                 }
-
             </Tab>
             <Tab heading="الاكثر قراءة"
                 tabStyle={Tabstyles.tabStyle}
@@ -117,26 +116,27 @@ const TabsComponent = ({ params, navigation }) => {
 
 
             </Tab>
-            <Tab heading="الاكثر تعليق"
+            <Tab heading="اخر الاخبار"
                 tabStyle={Tabstyles.tabStyle}
                 activeTabStyle={Tabstyles.activeTabStyle}
                 activeTextStyle={Tabstyles.activeTextStyle}
                 textStyle={Tabstyles.textStyle}
             >
-
                 {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
                     (<View style={{ flex: 1 }}>
                         <FlatList
-                            data={mostComment}
+                            data={posts}
                             renderItem={renderRow}
                             keyExtractor={(i, k) => k.toString()}
                             onEndReached={() => {
-                                setMostCommentPage(mostCommentPage + 1);
-                                getMostComment(mostCommentPage + 1);
+                                setPostsPage(postsPage + 1);
+                                // here cause i wont re render the component every time
+                                getLatestNews(postsPage + 1);
                             }}
                         />
                     </View>)
                 }
+
             </Tab>
         </Tabs >
     )
