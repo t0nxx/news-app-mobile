@@ -152,11 +152,11 @@ const SinglePostScreen = ({ navigation }) => {
                     </Button>
 
                     {
-                        isBookmarked ? <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: '#87ceeb', fontSize: 40 }} onPress={() => Unbookmark()} />
-                            : <Icon name={'bookmark'} style={{ left: 170, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
+                        isBookmarked ? <Icon name={'bookmark'} style={{ position: 'absolute', right: 80, backgroundColor: 'transparent', color: '#87ceeb', fontSize: 40 }} onPress={() => Unbookmark()} />
+                            : <Icon name={'bookmark'} style={{ position: 'absolute', right: 80, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
                     }
 
-                    <Icon name={'share'} style={{ left: 195, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} />
+                    <Icon name={'share'} style={{ right: 30, position: 'absolute', backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} />
                 </View>
             )}
         >
@@ -215,7 +215,7 @@ const SinglePostScreen = ({ navigation }) => {
                     ))}
                 </View>
 
-                <View style={{ flex: 1, flexDirection: 'row', margin: 10, marginTop: 15 }}>
+                <View style={{ flex: 1, flexDirection: 'row', margin: 10, marginTop: 15 , justifyContent : 'center' }}>
                     <TouchableOpacity onPress={() => reactToPost('sad')} style={{ backgroundColor: 'transparent', flexDirection: 'column', width: 45, height: 45, marginRight: 3, alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={require('../assets/images/emoji/sad.png')} style={{ width: 30, height: 30, marginTop: 5 }} />
                         <Text style={{ fontFamily: 'Cairo', fontSize: 10 }}>احزنني</Text>
@@ -255,7 +255,7 @@ const SinglePostScreen = ({ navigation }) => {
                         style={styles.inputs}
                         placeholder="اكنب تعليق"
                     /> */}
-                    <Text style={{ fontFamily: 'Cairo', color: 'white', fontSize: 15, alignSelf: 'center', left: 100 }}>   عدد التعليقات {data.commentsCount}</Text>
+                    <Text style={{ fontFamily: 'Cairo', color: 'white', fontSize: 15, alignSelf: 'center' , marginLeft : 5  }}>   عدد التعليقات {data.commentsCount}</Text>
 
                     <Button
                         rounded style={{ backgroundColor: 'red', width: 40, height: 40, marginTop: 5, position: 'absolute', left: 10 }}
@@ -286,6 +286,7 @@ const styles = StyleSheet.create({
         margin: 10,
         marginBottom: 5,
         flexDirection: 'row',
+        justifyContent : 'center'
     },
     inputs: {
         height: 45,
