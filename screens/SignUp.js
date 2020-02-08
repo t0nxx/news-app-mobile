@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image } from 'react-native';
+import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image, Linking } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
-import { Container, Toast, Button, Thumbnail } from 'native-base';
+import { Container, Toast, Button, Thumbnail, CheckBox } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as yup from 'yup';
@@ -37,6 +37,7 @@ export const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [img, setImg] = useState('');
+    const [isAccept, setIsAccept] = useState(false);
     const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const selectPicture = async () => {
@@ -75,6 +76,9 @@ export const SignUpScreen = ({ navigation }) => {
                 if (img.length > 3) {
                     body.img = img;
                 }
+                if(isAccept !== true) {
+                    throw new Error('يرجي الموافقه على الشروط والاحكام')
+                }
                 const { data } = await http.post('/users/new', body);
                 await AsyncStorage.setItem('token', data.token);
 
@@ -90,7 +94,7 @@ export const SignUpScreen = ({ navigation }) => {
                 navigation.navigate('Home');
             })
             .catch(err => {
-                let msg = "البريد الالكتروني مسجل بالفعل"
+                let msg = "  يرجي الموافقة على الشروط والاحكام "
                 if (err.errors && err.errors.length > 0) {
                     msg = err.errors;
                 }
@@ -112,7 +116,7 @@ export const SignUpScreen = ({ navigation }) => {
             <TouchableHighlight onPress={() => selectPicture()}>
                 <>
                     {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
-                        : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 , backgroundColor : 'white' }} source={require('../assets/images/test/user-big.png')} />
+                        : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2, backgroundColor: 'white' }} source={require('../assets/images/test/user-big.png')} />
                     }
                     <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
                 </>
@@ -147,6 +151,22 @@ export const SignUpScreen = ({ navigation }) => {
                     underlineColorAndroid='transparent'
                     onChangeText={(pass) => setPasswordConfirm(pass)} />
             </View>
+
+            <Text
+                style={{
+                    color: 'blue', fontFamily: 'Cairo',
+                    marginTop: 5, marginRight: 10,
+                    textDecorationLine: 'underline'
+                }}
+                onPress={() => { Linking.openURL(`https://hakaya.news/privacy_policy.pdf`) }}
+            // >{data.source.name}</Text>
+            > الشروط والاحكام </Text>
+            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
+                <Text style={{ fontFamily: 'Cairo', color: 'white' }}>اوافق على الشروط والاحكام</Text>
+
+                <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(!isAccept)} />
+            </View>
+
 
             <TouchableHighlight style={[styles.buttonContainer, { backgroundColor: '#742A99' }]} onPress={() => SignUp()}>
                 <Text style={styles.text}>انشاء حساب</Text>
