@@ -52,7 +52,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.hakaya.news"
+      "bundleIdentifier": "com.hakaya.news",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to upload your profile photo"
+      }
     },
     "description": ""
   }
