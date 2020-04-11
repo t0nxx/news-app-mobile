@@ -25,9 +25,9 @@
           ]
         }
       ],
-      "config" : {
-        "branch" : {
-          "apiKey" :"key_live_jaSOj2AMrSGz9X7rzsuW7kpjvqotTEHY"
+      "config": {
+        "branch": {
+          "apiKey": "key_live_jaSOj2AMrSGz9X7rzsuW7kpjvqotTEHY"
         }
       }
     },
@@ -53,9 +53,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.hakaya.news",
-      "buildNumber":"1.1.1",
+      "buildNumber": "1.1.1",
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to upload your profile photo"
+        "NSCameraUsageDescription": "This app uses the camera to upload your profile photo",
+        "NSPhotoLibraryAddUsageDescription": "This permission to enable you view or download picture from the news",
+        "NSPhotoLibraryUsageDescription": "This permission to enable you upload your profile picture"
       }
     },
     "description": ""
