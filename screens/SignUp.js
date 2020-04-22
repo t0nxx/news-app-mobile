@@ -47,7 +47,8 @@ export const SignUpScreen = ({ navigation }) => {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [3, 3],
                 allowsEditing: true,
-                base64: true
+                base64: true,
+                
             });
             if (pick.cancelled == false) {
                 let filename = pick.uri.split('/').pop();
@@ -158,12 +159,13 @@ export const SignUpScreen = ({ navigation }) => {
                     marginTop: 5, marginRight: 10,
                     textDecorationLine: 'underline'
                 }}
-                onPress={() => { Linking.openURL(`https://hakaya.news/privacy_policy.pdf`) }}
+                onPress={() => { Linking.openURL(`https://hakaya.news/terms.html`) }}
             // >{data.source.name}</Text>
             > الشروط والاحكام </Text>
-            <View style={{ flexDirection: 'row', marginBottom: 3 }}>
-                <Text style={{ fontFamily: 'Cairo', color: 'white' }}>اوافق على الشروط والاحكام</Text>
-
+            <Text style={{ fontFamily: 'Cairo', color: 'white' ,margin :5 , textTransform : 'uppercase' }}> i have read the terms and completly</Text>
+            <View style={{ flexDirection: 'row', marginBottom: 3  }}>
+                
+                <Text style={{ fontFamily: 'Cairo', color: 'white' ,textTransform : 'uppercase'}}>  agree on the above terms and eula </Text>
                 <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(!isAccept)} />
             </View>
 
