@@ -52,11 +52,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.hakaya.news",
-      "buildNumber": "1.1.3",
+      "buildNumber": "1.1.4",
       "infoPlist": {
-        "NSCameraUsageDescription": "Hakaya app uses the camera to upload your profile photo",
-        "NSPhotoLibraryAddUsageDescription": "This permission to enable you view or download picture from the news",
-        "NSPhotoLibraryUsageDescription": "This permission to enable you upload your profile picture"
+        "NSCameraUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture",
+        "NSPhotoLibraryAddUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture",
+        "NSPhotoLibraryUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture"
       }
     },
     "description": ""
