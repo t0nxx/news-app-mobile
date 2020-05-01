@@ -9,7 +9,7 @@ import { checkCurrentUser } from '../services/httpService'
 import { AuthContext } from '../services/auth';
 import { Notifications } from 'expo';
 import { getOnePost } from '../services/posts';
-// import Branch, { BranchEvent } from 'expo-branch';
+import Branch, { BranchEvent } from 'expo-branch';
 
 
 
@@ -28,17 +28,17 @@ const HomeScreen = ({ navigation }) => {
             }
         });
 
-        // Branch.subscribe(async bundle => {
-        //     if (bundle && bundle.params && !bundle.error) {
-        //         // `bundle.params` contains all the info about the link.
-        //         if (bundle.params.$canonical_identifier) {
-        //             let id = parseInt(bundle.params.$canonical_identifier,10);
-        //             const getfromServer = await getOnePost(id);
-        //             navigation.navigate('SinglePost', { data: getfromServer });
-        //         }
+        Branch.subscribe(async bundle => {
+            if (bundle && bundle.params && !bundle.error) {
+                // `bundle.params` contains all the info about the link.
+                if (bundle.params.$canonical_identifier) {
+                    let id = parseInt(bundle.params.$canonical_identifier,10);
+                    const getfromServer = await getOnePost(id);
+                    navigation.navigate('SinglePost', { data: getfromServer });
+                }
 
-        //     }
-        // });
+            }
+        });
     }, [])
     return (
         <Container>
