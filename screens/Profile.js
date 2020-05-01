@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image, Switch } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
 import { Container, Toast, Button, Thumbnail, ActivityIndicator, Left, Right, Content } from 'native-base';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+// import * as ImagePicker from 'expo-image-picker';
+// import * as Permissions from 'expo-permissions';
 import * as yup from 'yup';
 import { AuthContext } from '../services/auth';
 import HeaderComponent from '../components/Header';
@@ -41,25 +41,25 @@ export const ProfileScreen = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const selectPicture = async () => {
-        try {
-            await Permissions.askAsync(Permissions.CAMERA_ROLL);
-            const pick = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                aspect: [3, 3],
-                allowsEditing: true,
-                base64: true
-            });
-            if (pick.cancelled == false) {
-                let filename = pick.uri.split('/').pop();
-                let fileExtention = filename.split('.')[1];
-                const file = `data:image/${fileExtention};base64,${pick.base64}`;
-                setImg(file);
-            }
+        // try {
+        //     await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        //     const pick = await ImagePicker.launchImageLibraryAsync({
+        //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        //         aspect: [3, 3],
+        //         allowsEditing: true,
+        //         base64: true
+        //     });
+        //     if (pick.cancelled == false) {
+        //         let filename = pick.uri.split('/').pop();
+        //         let fileExtention = filename.split('.')[1];
+        //         const file = `data:image/${fileExtention};base64,${pick.base64}`;
+        //         setImg(file);
+        //     }
 
 
-        } catch (error) {
-            console.log(error);
-        }
+        // } catch (error) {
+        //     console.log(error);
+        // }
         // if (!cancelled) setImg(uri);
     };
 
@@ -145,14 +145,14 @@ export const ProfileScreen = ({ navigation }) => {
             <Content style={{ backgroundColor: '#E4EAEE' }}>
                 <View style={styles.container}>
 
-                    <TouchableHighlight style={{ paddingBottom: 15 }} onPress={() => selectPicture()}>
+                    {/* <TouchableHighlight style={{ paddingBottom: 15 }} onPress={() => selectPicture()}>
                         <>
                             {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
                                 : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} large source={require('../assets/images/test/user-big.png')} />
                             }
                             <Text style={{ color: 'black', fontFamily: 'Cairo', fontSize: 8 }}> اختر صورة </Text>
                         </>
-                    </TouchableHighlight>
+                    </TouchableHighlight> */}
                     <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
                         <Switch value={receiveNotification} thumbColor="#742A99" trackColor={{ false: "grey", true: "#742A99" }} onValueChange={(val) => setReceiveNotification(val)} />
                         <Text style={{ color: 'black', fontFamily: 'Cairo', paddingLeft: 100 }}> استلام الاشعارات  </Text>
