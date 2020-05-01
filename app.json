@@ -56,6 +56,11 @@
       "buildNumber": "1.1.6",
       "infoPlist": {
        
+      },
+      "config": {
+        "branch": {
+          "apiKey": "key_live_jaSOj2AMrSGz9X7rzsuW7kpjvqotTEHY"
+        }
       }
     },
     "description": ""
