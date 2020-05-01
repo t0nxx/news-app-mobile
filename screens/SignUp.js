@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image, Linking, Platform } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
 import { Container, Toast, Button, Thumbnail, CheckBox } from 'native-base';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 import * as yup from 'yup';
 import { AuthContext } from '../services/auth';
 
@@ -41,32 +39,32 @@ export const SignUpScreen = ({ navigation }) => {
     const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const selectPicture = async () => {
-        if (Platform.OS == 'android') {
-            try {
-                const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-                if (status !== 'granted') {
-                    alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
-                }
-                const pick = await ImagePicker.launchImageLibraryAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    aspect: [3, 3],
-                    allowsEditing: true,
-                    base64: true,
+        // if (Platform.OS == 'android') {
+        //     try {
+        //         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        //         if (status !== 'granted') {
+        //             alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
+        //         }
+        //         const pick = await ImagePicker.launchImageLibraryAsync({
+        //             mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        //             aspect: [3, 3],
+        //             allowsEditing: true,
+        //             base64: true,
 
-                });
-                if (pick.cancelled == false) {
-                    let filename = pick.uri.split('/').pop();
-                    let fileExtention = filename.split('.')[1];
-                    console.log(fileExtention)
-                    const file = `data:image/${fileExtention};base64,${pick.base64}`;
-                    setImg(file);
-                }
+        //         });
+        //         if (pick.cancelled == false) {
+        //             let filename = pick.uri.split('/').pop();
+        //             let fileExtention = filename.split('.')[1];
+        //             console.log(fileExtention)
+        //             const file = `data:image/${fileExtention};base64,${pick.base64}`;
+        //             setImg(file);
+        //         }
 
 
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
 
         // if (!cancelled) setImg(uri);
     };

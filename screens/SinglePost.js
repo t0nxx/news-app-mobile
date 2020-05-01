@@ -128,7 +128,7 @@ const SinglePostScreen = ({ navigation }) => {
     useEffect(() => {
 
         getpost();
-        createDeeplink();
+        //createDeeplink();
 
 
         // fetchData().then(() => {
@@ -156,7 +156,7 @@ const SinglePostScreen = ({ navigation }) => {
                             : <Icon name={'bookmark'} style={{ position: 'absolute', right: 80, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
                     }
 
-                    <Icon name={'share'} style={{ right: 30, position: 'absolute', backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} />
+                    {/* <Icon name={'share'} style={{ right: 30, position: 'absolute', backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} /> */}
                 </View>
             )}
         >
