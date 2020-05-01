@@ -2189,13 +2189,6 @@ expo-asset@~7.0.0:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
-expo-branch@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/expo-branch/-/expo-branch-2.0.0.tgz#205cf174c16866fdc11fd446296c962c1af27fb4"
-  integrity sha512-+v0+taSw4+l2m2wLa4Dv3x/mYuSKZkaDrwjjSY2/YXDKmC9cyEWoIld/T9qq5m1qnl451YEIExcYEP6qFwoLtA==
-  dependencies:
-    react-native-branch "4.2.1"
-
 expo-constants@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-7.0.0.tgz#668c3ec0100e219522ffd9515ec47fadfccd443d"
@@ -4766,16 +4759,6 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
-
-react-native-branch@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.1.1.tgz#41926463a05e6e94d76e2346051f0fc374e77596"
-  integrity sha512-q3Jz2vFWnxjmRWiMFo2PqOrh9TNPrPgt4xntWUMNUmE4860D4i6esOZ/e+JIE7ym//bvki1tQgucTyntSFRrKQ==
-
-react-native-branch@4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-4.2.1.tgz#3ed1a071c053b420d11af8aa368142b19e2d5129"
-  integrity sha512-wwBCsj3VslS0zG8UAZjx+nNrWgd3CuA24r5muFDzS38oQ4S9oB0NJPafEcWcUT7TPxw/rfpdPLb+JccGvS2/Lg==
 
 react-native-branch@~3.0.1:
   version "3.0.1"

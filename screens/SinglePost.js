@@ -8,7 +8,7 @@ import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { AuthContext } from '../services/auth';
-import Branch, { BranchEvent } from 'expo-branch';
+// import Branch, { BranchEvent } from 'expo-branch';
 
 
 
@@ -102,33 +102,33 @@ const SinglePostScreen = ({ navigation }) => {
         }).finally(() => setIsLoading(false));
     }
 
-    async function share() {
-        const shareOptions = {
-            messageHeader: 'شارك الحكاية',
-            messageBody: `شارك الحكاية !`,
-        };
-        let link = await branchObject.showShareSheet(shareOptions);
-        // console.log(link);
-        // alert(JSON.stringify(link, null, 4));
-    }
-    async function createDeeplink() {
-        let sharePostid = `${data.id}`.toString();
-        await Branch.createBranchUniversalObject(
-            sharePostid,
-            {
-                metadata: {
-                    screen: 'SinglePostScreen',
-                    params: JSON.stringify({ postId: 49 }),
-                },
-            }
-        ).then((obj) => setbranchObject(obj));
+    // async function share() {
+    //     const shareOptions = {
+    //         messageHeader: 'شارك الحكاية',
+    //         messageBody: `شارك الحكاية !`,
+    //     };
+    //     let link = await branchObject.showShareSheet(shareOptions);
+    //     // console.log(link);
+    //     // alert(JSON.stringify(link, null, 4));
+    // }
+    // async function createDeeplink() {
+    //     let sharePostid = `${data.id}`.toString();
+    //     await Branch.createBranchUniversalObject(
+    //         sharePostid,
+    //         {
+    //             metadata: {
+    //                 screen: 'SinglePostScreen',
+    //                 params: JSON.stringify({ postId: 49 }),
+    //             },
+    //         }
+    //     ).then((obj) => setbranchObject(obj));
 
-    }
+    // }
 
     useEffect(() => {
 
         getpost();
-        createDeeplink();
+        //createDeeplink();
 
 
         // fetchData().then(() => {
@@ -156,7 +156,7 @@ const SinglePostScreen = ({ navigation }) => {
                             : <Icon name={'bookmark'} style={{ position: 'absolute', right: 80, backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => bookmark()} />
                     }
 
-                    <Icon name={'share'} style={{ right: 30, position: 'absolute', backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} />
+                    {/* <Icon name={'share'} style={{ right: 30, position: 'absolute', backgroundColor: 'transparent', color: 'white', fontSize: 40 }} onPress={() => share()} /> */}
                 </View>
             )}
         >
