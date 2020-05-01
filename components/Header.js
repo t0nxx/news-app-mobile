@@ -6,7 +6,7 @@ import { THEME_BACKGROUND_COLOR } from '../Colors';
 
 const HeaderComponent = ({ params, title, navigation }) => (
     <ImageBackground source={require('../assets/gradient.png')} style={{ height: 65, width: null }} >
-        <Header style={{ backgroundColor: 'transparent', paddingTop:30 }} hasTabs>
+        <Header style={{ backgroundColor: 'transparent', paddingTop:30 , paddingBottom : 50 }} hasTabs>
             <Left style={{ flex: 1 }}>
                 <Button transparent onPress={() => {
                     if (navigation.state.routeName == 'Home') {
