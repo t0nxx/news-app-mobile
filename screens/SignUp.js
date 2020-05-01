@@ -41,11 +41,12 @@ export const SignUpScreen = ({ navigation }) => {
     const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const selectPicture = async () => {
-        if (Platform.OS == 'android') {
+       
             try {
                 const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
                 if (status !== 'granted') {
-                    alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
+                    alert('Hey! Hakaya need camera and photos library permission to set your profile picture.please enable it');
+                    return;
                 }
                 const pick = await ImagePicker.launchImageLibraryAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -66,7 +67,7 @@ export const SignUpScreen = ({ navigation }) => {
             } catch (error) {
                 console.log(error);
             }
-        }
+        
 
         // if (!cancelled) setImg(uri);
     };
@@ -120,7 +121,7 @@ export const SignUpScreen = ({ navigation }) => {
         <View style={styles.container}>
             {/* <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} /> */}
 
-            {Platform.OS == 'android' ?
+            
                 <TouchableHighlight onPress={() => selectPicture()}>
                     <>
                         {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
@@ -129,7 +130,7 @@ export const SignUpScreen = ({ navigation }) => {
                         <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
                     </>
                 </TouchableHighlight>
-                : null}
+                
 
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}

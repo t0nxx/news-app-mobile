@@ -8,7 +8,7 @@ import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import { Divider } from 'react-native-paper';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { AuthContext } from '../services/auth';
-import Branch, { BranchEvent } from 'expo-branch';
+// import Branch, { BranchEvent } from 'expo-branch';
 
 
 
