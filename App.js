@@ -11,6 +11,8 @@ import { Root } from 'native-base';
 import { AuthProvider } from './services/auth';
 import NotificationModule from './Notifications';
 import HumburgerMenu from './navigations/HumburgerMenu';
+import FirstPage from './screens/FirstPage';
+import { TermsEulaProvider } from './services/termsandEulaContext';
 
 export default function App(props) {
   const [ready, setReady] = useState(false);
@@ -40,8 +42,12 @@ export default function App(props) {
       <>
         <Root>
           <AuthProvider>
+            <TermsEulaProvider>
             <StatusBar barStyle="default" />
             <HumburgerMenu />
+            {/* <FirstPage/> */}
+            </TermsEulaProvider>
+           
           </AuthProvider>
         </Root>
 

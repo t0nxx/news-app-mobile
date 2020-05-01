@@ -127,7 +127,8 @@ export const SignUpScreen = ({ navigation }) => {
                         <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
                     </>
                 </TouchableHighlight>
-                : null}
+                : <Image style={{top : 0 , marginBottom : 5}} source={require('../assets/images/logo.png')} />
+                }
 
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}
