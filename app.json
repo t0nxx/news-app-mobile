@@ -4,7 +4,6 @@
     "slug": "Hakaya",
     "scheme": "hakaya",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
     "android": {
       "package": "com.hakaya.news",
       "googleServicesFile": "./google-services.json",
