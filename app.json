@@ -54,7 +54,9 @@
       "bundleIdentifier": "com.hakaya.news",
       "buildNumber": "2.0.1",
       "infoPlist": {
-       
+        "NSCameraUsageDescription": "This app uses the camera to upload your profile photo",
+        "NSPhotoLibraryAddUsageDescription": "This permission to enable you view or download picture from the news",
+        "NSPhotoLibraryUsageDescription": "This permission to enable you upload your profile picture"
       },
       "config": {
         "branch": {
