@@ -102,28 +102,28 @@ const SinglePostScreen = ({ navigation }) => {
         }).finally(() => setIsLoading(false));
     }
 
-    async function share() {
-        const shareOptions = {
-            messageHeader: 'شارك الحكاية',
-            messageBody: `شارك الحكاية !`,
-        };
-        let link = await branchObject.showShareSheet(shareOptions);
-        // console.log(link);
-        // alert(JSON.stringify(link, null, 4));
-    }
-    async function createDeeplink() {
-        let sharePostid = `${data.id}`.toString();
-        await Branch.createBranchUniversalObject(
-            sharePostid,
-            {
-                metadata: {
-                    screen: 'SinglePostScreen',
-                    params: JSON.stringify({ postId: 49 }),
-                },
-            }
-        ).then((obj) => setbranchObject(obj));
+    // async function share() {
+    //     const shareOptions = {
+    //         messageHeader: 'شارك الحكاية',
+    //         messageBody: `شارك الحكاية !`,
+    //     };
+    //     let link = await branchObject.showShareSheet(shareOptions);
+    //     // console.log(link);
+    //     // alert(JSON.stringify(link, null, 4));
+    // }
+    // async function createDeeplink() {
+    //     let sharePostid = `${data.id}`.toString();
+    //     await Branch.createBranchUniversalObject(
+    //         sharePostid,
+    //         {
+    //             metadata: {
+    //                 screen: 'SinglePostScreen',
+    //                 params: JSON.stringify({ postId: 49 }),
+    //             },
+    //         }
+    //     ).then((obj) => setbranchObject(obj));
 
-    }
+    // }
 
     useEffect(() => {
 
