@@ -2487,6 +2487,13 @@ expo-asset@~8.1.4:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-branch@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/expo-branch/-/expo-branch-2.1.1.tgz#715893615e747f87751e9479786c3366932ae65c"
+  integrity sha512-E/7smDOiAPsxDEK0JJaAOSSnpGNXVe6U45qG2NnzhTngfMbVdG2RVqBCm5PaAA2+1zePwTo7NO1YYa0pVNnFPQ==
+  dependencies:
+    react-native-branch "4.2.1"
+
 expo-constants@~9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.0.0.tgz#35c600079ee91d38fe4f56375caae6e90f122fdd"
@@ -4830,6 +4837,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-native-branch@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-4.2.1.tgz#3ed1a071c053b420d11af8aa368142b19e2d5129"
+  integrity sha512-wwBCsj3VslS0zG8UAZjx+nNrWgd3CuA24r5muFDzS38oQ4S9oB0NJPafEcWcUT7TPxw/rfpdPLb+JccGvS2/Lg==
 
 react-native-drawer@2.5.1:
   version "2.5.1"
