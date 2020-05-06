@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image, Linking } from 'react-native';
+import { StyleSheet, Text, AsyncStorage, TextInput, TouchableHighlight, View, Image, Linking, Platform } from 'react-native';
 import { http, checkCurrentUser } from '../services/httpService'
 import { Container, Toast, Button, Thumbnail, CheckBox } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
@@ -42,12 +42,16 @@ export const SignUpScreen = ({ navigation }) => {
 
     const selectPicture = async () => {
         try {
-            await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
+            }
             const pick = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [3, 3],
                 allowsEditing: true,
-                base64: true
+                base64: true,
+
             });
             if (pick.cancelled == false) {
                 let filename = pick.uri.split('/').pop();
@@ -61,6 +65,7 @@ export const SignUpScreen = ({ navigation }) => {
         } catch (error) {
             console.log(error);
         }
+
         // if (!cancelled) setImg(uri);
     };
 
@@ -76,7 +81,7 @@ export const SignUpScreen = ({ navigation }) => {
                 if (img.length > 3) {
                     body.img = img;
                 }
-                if(isAccept !== true) {
+                if (isAccept !== true) {
                     throw new Error('يرجي الموافقه على الشروط والاحكام')
                 }
                 const { data } = await http.post('/users/new', body);
@@ -113,6 +118,7 @@ export const SignUpScreen = ({ navigation }) => {
         <View style={styles.container}>
             {/* <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} /> */}
 
+
             <TouchableHighlight onPress={() => selectPicture()}>
                 <>
                     {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
@@ -121,6 +127,8 @@ export const SignUpScreen = ({ navigation }) => {
                     <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
                 </>
             </TouchableHighlight>
+
+
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}
                     placeholder=" اسم المستخدم    "
@@ -158,13 +166,14 @@ export const SignUpScreen = ({ navigation }) => {
                     marginTop: 5, marginRight: 10,
                     textDecorationLine: 'underline'
                 }}
-                onPress={() => { Linking.openURL(`https://hakaya.news/privacy_policy.pdf`) }}
+                onPress={() => { Linking.openURL(`https://hakaya.news/terms.html`) }}
             // >{data.source.name}</Text>
-            > الشروط والاحكام </Text>
+            >  Terms and Condations </Text>
+            <Text style={{ fontFamily: 'Cairo', color: 'white', margin: 5, textTransform: 'uppercase' }}> i have read the terms and completly</Text>
             <View style={{ flexDirection: 'row', marginBottom: 3 }}>
-                <Text style={{ fontFamily: 'Cairo', color: 'white' }}>اوافق على الشروط والاحكام</Text>
 
-                <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(!isAccept)} />
+                <Text style={{ fontFamily: 'Cairo', color: 'white', textTransform: 'uppercase' }}>  agree on the above terms and eula </Text>
+                <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(true)} />
             </View>
 
 
