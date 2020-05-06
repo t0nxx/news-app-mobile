@@ -3,7 +3,7 @@ if (__DEV__) {
 }
 
 import React, { useEffect, useState, useContext } from 'react';
-import { StatusBar, AsyncStorage , I18nManager} from 'react-native';
+import { StatusBar, AsyncStorage, I18nManager,SafeAreaView} from 'react-native';
 import { Notifications } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +11,8 @@ import { Root } from 'native-base';
 import { AuthProvider } from './services/auth';
 import NotificationModule from './Notifications';
 import HumburgerMenu from './navigations/HumburgerMenu';
+import FirstPage from './screens/FirstPage';
+import { TermsEulaProvider } from './services/termsandEulaContext';
 
 export default function App(props) {
   const [ready, setReady] = useState(false);
@@ -37,15 +39,19 @@ export default function App(props) {
   }, ready)
   return (
     ready != false ? (
-      <>
+     <>
         <Root>
           <AuthProvider>
-            <StatusBar barStyle="default" />
-            <HumburgerMenu />
+            <TermsEulaProvider>
+              <StatusBar barStyle="default" />
+              <HumburgerMenu />
+              {/* <FirstPage/> */}
+            </TermsEulaProvider>
+
           </AuthProvider>
         </Root>
 
-      </>
+     </>
     ) : null
   )
 }

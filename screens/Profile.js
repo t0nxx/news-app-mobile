@@ -60,7 +60,7 @@ export const ProfileScreen = ({ navigation }) => {
         } catch (error) {
             console.log(error);
         }
-        // if (!cancelled) setImg(uri);
+        if (!cancelled) setImg(uri);
     };
 
     const getUserData = async () => {

@@ -4,7 +4,6 @@
     "slug": "Hakaya",
     "scheme": "hakaya",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
     "android": {
       "package": "com.hakaya.news",
       "googleServicesFile": "./google-services.json",
@@ -36,7 +35,7 @@
       "android",
       "web"
     ],
-    "version": "1.1.1",
+    "version": "2.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -52,11 +51,16 @@
     ],
     "ios": {
       "bundleIdentifier": "com.hakaya.news",
-      "buildNumber": "1.1.4",
+      "buildNumber": "2.0.1",
       "infoPlist": {
-        "NSCameraUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture",
-        "NSPhotoLibraryAddUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture",
-        "NSPhotoLibraryUsageDescription": "Hakaya would like access to your photo gallery to change your profile picture"
+        "NSCameraUsageDescription": "This app uses the camera to upload your profile photo",
+        "NSPhotoLibraryAddUsageDescription": "This permission to enable you view or download picture from the news",
+        "NSPhotoLibraryUsageDescription": "This permission to enable you upload your profile picture"
+      },
+      "config": {
+        "branch": {
+          "apiKey": "key_live_jaSOj2AMrSGz9X7rzsuW7kpjvqotTEHY"
+        }
       }
     },
     "description": ""

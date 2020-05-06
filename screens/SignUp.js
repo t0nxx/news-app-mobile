@@ -41,31 +41,29 @@ export const SignUpScreen = ({ navigation }) => {
     const [isLogin, setIsLogin] = useContext(AuthContext);
 
     const selectPicture = async () => {
-        if (Platform.OS == 'android') {
-            try {
-                const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-                if (status !== 'granted') {
-                    alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
-                }
-                const pick = await ImagePicker.launchImageLibraryAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    aspect: [3, 3],
-                    allowsEditing: true,
-                    base64: true,
-
-                });
-                if (pick.cancelled == false) {
-                    let filename = pick.uri.split('/').pop();
-                    let fileExtention = filename.split('.')[1];
-                    console.log(fileExtention)
-                    const file = `data:image/${fileExtention};base64,${pick.base64}`;
-                    setImg(file);
-                }
-
-
-            } catch (error) {
-                console.log(error);
+        try {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Hey! Hakaya need camera and photos library permission to set your profile picture.');
             }
+            const pick = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [3, 3],
+                allowsEditing: true,
+                base64: true,
+
+            });
+            if (pick.cancelled == false) {
+                let filename = pick.uri.split('/').pop();
+                let fileExtention = filename.split('.')[1];
+                console.log(fileExtention)
+                const file = `data:image/${fileExtention};base64,${pick.base64}`;
+                setImg(file);
+            }
+
+
+        } catch (error) {
+            console.log(error);
         }
 
         // if (!cancelled) setImg(uri);
@@ -120,16 +118,16 @@ export const SignUpScreen = ({ navigation }) => {
         <View style={styles.container}>
             {/* <Image style={{ bottom: 30 }} source={require('../assets/images/logo.png')} /> */}
 
-            {Platform.OS == 'android' ?
-                <TouchableHighlight onPress={() => selectPicture()}>
-                    <>
-                        {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
-                            : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2, backgroundColor: 'white' }} source={require('../assets/images/test/user-big.png')} />
-                        }
-                        <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
-                    </>
-                </TouchableHighlight>
-                : null}
+
+            <TouchableHighlight onPress={() => selectPicture()}>
+                <>
+                    {img.length > 3 ? <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2 }} source={{ uri: img }} />
+                        : <Thumbnail style={{ width: 120, height: 120, borderRadius: 120 / 2, backgroundColor: 'white' }} source={require('../assets/images/test/user-big.png')} />
+                    }
+                    <Text style={{ color: 'white', fontFamily: 'Cairo', paddingBottom: 5 }}> اختر صورة </Text>
+                </>
+            </TouchableHighlight>
+
 
             <View style={styles.inputContainer}>
                 <TextInput style={[styles.inputs, { textAlign: 'center' }]}
@@ -175,7 +173,7 @@ export const SignUpScreen = ({ navigation }) => {
             <View style={{ flexDirection: 'row', marginBottom: 3 }}>
 
                 <Text style={{ fontFamily: 'Cairo', color: 'white', textTransform: 'uppercase' }}>  agree on the above terms and eula </Text>
-                <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(!isAccept)} />
+                <CheckBox checked={isAccept} color="white" onPress={() => setIsAccept(true)} />
             </View>
 
 
