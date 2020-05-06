@@ -3,7 +3,7 @@ if (__DEV__) {
 }
 
 import React, { useEffect, useState, useContext } from 'react';
-import { StatusBar, AsyncStorage , I18nManager} from 'react-native';
+import { StatusBar, AsyncStorage, I18nManager,SafeAreaView} from 'react-native';
 import { Notifications } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -39,19 +39,19 @@ export default function App(props) {
   }, ready)
   return (
     ready != false ? (
-      <>
+     <>
         <Root>
           <AuthProvider>
             <TermsEulaProvider>
-            <StatusBar barStyle="default" />
-            <HumburgerMenu />
-            {/* <FirstPage/> */}
+              <StatusBar barStyle="default" />
+              <HumburgerMenu />
+              {/* <FirstPage/> */}
             </TermsEulaProvider>
-           
+
           </AuthProvider>
         </Root>
 
-      </>
+     </>
     ) : null
   )
 }

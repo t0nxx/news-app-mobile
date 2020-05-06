@@ -154,7 +154,7 @@ const HumburgerMenu = createDrawerNavigator({
 
 
 }, {
-    initialRouteName: 'FirstPage',
+    initialRouteName: 'Home',
     drawerPosition: 'right',
     drawerBackgroundColor: '#B047E5',
     drawerWidth: '80%',
