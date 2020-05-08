@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, ImageBackground, Image, Platform } from 'react-native';
 import { Header, Left, Body, Title, Right, Button, Icon, Tabs, Tab } from 'native-base';
 import { THEME_BACKGROUND_COLOR } from '../Colors';
 
 
 const HeaderComponent = ({ params, title, navigation }) => (
-    <ImageBackground source={require('../assets/gradient.png')} style={{ height: 65, width: null , paddingBottom:5 , paddingTop : 10 }} >
-        <Header style={{ backgroundColor: 'transparent' , position : 'absolute' }} hasTabs>
+    <ImageBackground source={require('../assets/gradient.png')} style={{ height: 65, width: null, paddingBottom: 5, paddingTop: 10 }} >
+        <Header style={{ backgroundColor: 'transparent', position: Platform.OS == 'android' ? 'relative' : 'absolute' }} hasTabs>
             <Left style={{ flex: 1 }}>
                 <Button transparent onPress={() => {
                     if (navigation.state.routeName == 'Home') {
