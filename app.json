@@ -5,6 +5,7 @@
     "scheme": "hakaya",
     "privacy": "public",
     "android": {
+      "versionCode": 3,
       "package": "com.hakaya.news",
       "googleServicesFile": "./google-services.json",
       "intentFilters": [
