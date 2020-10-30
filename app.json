@@ -36,7 +36,7 @@
       "android",
       "web"
     ],
-    "version": "3.1.1",
+    "version": "3.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -52,7 +52,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.hakaya.news",
-      "buildNumber": "3.0.1",
+      "buildNumber": "3.1.1",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to upload your profile photo",
         "NSPhotoLibraryAddUsageDescription": "This permission to enable you view or download picture from the news",
